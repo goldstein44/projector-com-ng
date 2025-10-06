@@ -19,3 +19,4 @@ class Migration(migrations.Migration):
             options={'verbose_name': 'Rental Product', 'verbose_name_plural': 'Rental Products'},
         ),
     ]
+

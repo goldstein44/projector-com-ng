@@ -70,7 +70,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             send_mail(
                 'Order Confirmation',
                 f'Your order #{order.id} has been placed. Total: ₦{order.total_price}',
-                'no-reply@projector.com.ng',
+                'no-reply@projector.online',
                 [email],
                 fail_silently=True,
             )
@@ -151,7 +151,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             send_mail(
                 'Booking Confirmation',
                 f'Your booking #{order.id} has been placed. Total: ₦{order.total_price}',
-                'no-reply@projector.com.ng',
+                'no-reply@projector.online',
                 [email],
                 fail_silently=True,
             )

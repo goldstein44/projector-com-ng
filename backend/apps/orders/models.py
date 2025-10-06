@@ -1,4 +1,3 @@
-# backend/apps/orders/models.py
 from django.db import models
 from apps.common.models import TimeStampedModel
 from apps.sales.models import Product
@@ -35,6 +34,36 @@ class Order(TimeStampedModel):
     def __str__(self):
         return f"{self.order_type} Order #{self.id} - {self.name}"
 
+    def calculate_total(self):
+        total = 0
+
+        if self.order_type == 'SALE':
+            for item in self.sale_items.all():
+                total += item.product.price * item.quantity
+
+        elif self.order_type == 'RENTAL':
+            for item in self.rental_items.all():
+                base_price = 15000  # ₦15k/day
+                days = item.days
+
+                if days == 1:
+                    daily_rate = base_price
+                elif 2 <= days <= 3:
+                    daily_rate = 14000
+                elif 4 <= days <= 6:
+                    daily_rate = 13000
+                else:  # 7+ days
+                    daily_rate = 12000
+
+                total += daily_rate * days * item.quantity
+
+        if self.delivery_type == 'DELIVERY':
+            total += self.delivery_fee
+
+        self.total_price = total
+        return total
+
+
 class SaleOrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='sale_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -42,6 +71,7 @@ class SaleOrderItem(TimeStampedModel):
 
     def __str__(self):
         return f"{self.product} x{self.quantity}"
+
 
 class RentalOrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='rental_items')

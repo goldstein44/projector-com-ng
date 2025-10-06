@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")  # fallback for dev
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projector.com.ng"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projector.online"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -55,7 +55,7 @@ MIDDLEWARE = [
 # CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",   # Frontend dev server
-    "https://projector.com.ng",  # Production domain
+    "https://projector.online",  # Production domain
 ]
 
 # URLS & Templates
