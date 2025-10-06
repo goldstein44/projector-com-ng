@@ -1,0 +1,25 @@
+{
+  "cartItems": [
+    {
+      "id": 1,
+      "name": "HD Projector",
+      "price": 70000,
+      "quantity": 1,
+      "image": "/images/projector-hd.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Portable Projector Screen",
+      "price": 15000,
+      "quantity": 2,
+      "image": "/images/screen.jpg"
+    }
+  ],
+  "checkoutForm": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "08012345678",
+    "address": "123 Test Street, Lagos",
+    "deliveryType": "pickup"
+  }
+}
