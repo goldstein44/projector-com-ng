@@ -3,6 +3,11 @@ from django.db import models
 from apps.common.models import TimeStampedModel
 
 class Product(TimeStampedModel):
+    CONDITION_CHOICES = [
+        ('brand_new', 'Brand New'),
+        ('tokunbo', 'Tokunbo (Used)'),
+    ]
+
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)  # For SEO-friendly URLs
     brand = models.CharField(max_length=100)
@@ -16,9 +21,15 @@ class Product(TimeStampedModel):
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     description = models.TextField()
     is_available = models.BooleanField(default=True)
+    condition = models.CharField(
+        max_length=20,
+        choices=CONDITION_CHOICES,
+        default='brand_new',
+        help_text="Specify whether the projector is brand new or tokunbo (used)."
+    )
 
     def __str__(self):
-        return f"{self.brand} {self.model}"
+        return f"{self.brand} {self.model} ({self.get_condition_display()})"
 
     def save(self, *args, **kwargs):
         # Auto-update availability based on stock

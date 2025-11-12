@@ -1,0 +1,1 @@
+web: gunicorn projector_backend.wsgi --log-file -

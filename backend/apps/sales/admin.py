@@ -4,7 +4,7 @@ from .models import Product
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'brand', 'model', 'price', 'stock', 'is_available']
-    list_filter = ['brand', 'is_available']
+    list_display = ['name', 'brand', 'model', 'condition', 'price', 'stock', 'is_available']
+    list_filter = ['brand', 'condition', 'is_available']
     search_fields = ['name', 'brand', 'model']
     prepopulated_fields = {'slug': ('name',)}
