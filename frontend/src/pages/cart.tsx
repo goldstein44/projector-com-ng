@@ -1,4 +1,4 @@
-// frontend/pages/cart.tsx
+// frontend/src/pages/cart.tsx
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Header from '../components/Header';
@@ -54,7 +54,7 @@ function CartPage() {
   return (
     <div>
       <Head>
-        <title>Cart | projector online</title>
+        <title>Cart | Projector Online</title>
         <meta
           name="description"
           content="Review your projector purchase cart before checkout."
@@ -143,6 +143,13 @@ function CartPage() {
                 <option value="pickup">Pickup</option>
                 <option value="delivery">Delivery</option>
               </select>
+
+              {/* 🚚 Delivery notice */}
+              {form.delivery === 'delivery' && (
+                <p className="text-sm text-gray-600 bg-yellow-50 border border-yellow-200 p-2 rounded">
+                  Delivery for purchased projectors takes <strong>2–5 business days</strong> after payment confirmation.
+                </p>
+              )}
 
               <button
                 type="submit"

@@ -1,4 +1,4 @@
-// frontend/src/pages/index.tsx
+// frontend/src/pages/index.tsx 
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ import {
   CheckIcon,
 } from '@heroicons/react/24/outline';
 import axios from 'axios';
+import { useState } from 'react';
 
 interface HomeProps {
   featuredProducts: Array<{
@@ -23,6 +24,7 @@ interface HomeProps {
     slug: string;
     image: string;
     price: number;
+    condition?: 'brand_new' | 'tokunbo';
   }>;
   featuredRentals: Array<{
     id: string;
@@ -34,6 +36,13 @@ interface HomeProps {
 }
 
 export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
+  const [filter, setFilter] = useState<'all' | 'brand_new' | 'tokunbo'>('all');
+
+  const filteredProducts =
+    filter === 'all'
+      ? featuredProducts
+      : featuredProducts.filter((product) => product.condition === filter);
+
   return (
     <div>
       <Head>
@@ -184,14 +193,30 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
         </div>
       </section>
 
-      {/* Featured Products Section */}
+      {/* Featured Products Section with Dropdown Filter */}
       <section className="p-10">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Featured Projectors for Sale
-        </h2>
-        {featuredProducts.length > 0 ? (
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-3xl font-bold">Featured Projectors for Sale</h2>
+          <div>
+            <select
+              data-testid="condition-filter"
+              data-testid2="filter-dropdown"
+              value={filter}
+              onChange={(e) =>
+                setFilter(e.target.value as 'all' | 'brand_new' | 'tokunbo')
+              }
+              className="border border-gray-300 rounded-md px-3 py-2 text-gray-700"
+            >
+              <option value="all">All</option>
+              <option value="brand_new">Brand New</option>
+              <option value="tokunbo">Tokunbo</option>
+            </select>
+          </div>
+        </div>
+
+        {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product.id}
                 className="border rounded-lg p-4 shadow-md hover:shadow-lg transition"
@@ -205,6 +230,11 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 />
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-gray-600">₦{product.price}</p>
+                {product.condition && (
+                  <p className="text-sm text-gray-500 capitalize">
+                    {product.condition.replace('_', ' ')}
+                  </p>
+                )}
                 <Link
                   href={`/shop/${product.slug}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
@@ -287,8 +317,8 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
           </div>
           <div className="text-center">
             <TruckIcon className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold">Fast Delivery</h3>
-            <p>Choose delivery in Lekki for only ₦3,000 or pickup for free.</p>
+            <h3 className="text-xl font-semibold">Trusted by Event Planners</h3>
+            <p>We’ve powered events, churches, and offices across Lekki with reliable gear.</p>
           </div>
           <div className="text-center">
             <ChatBubbleBottomCenterIcon className="w-12 h-12 text-blue-500 mx-auto mb-4" />

@@ -11,7 +11,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "your-production-domain.com", // Replace with your production domain later
+        hostname: "api.projectorlekki.com.ng", // Your production backend domain
       },
     ],
   },

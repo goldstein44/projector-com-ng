@@ -1,26 +1,5 @@
 // frontend/cypress/e2e/homepage.cy.ts
 
-// --- Helper to reliably wait for an option and select it (if needed elsewhere) ---
-function waitForOptionAndSelect(selectSelector: string, optionText: string, timeout = 30000) {
-  const start = Date.now();
-
-  function trySelect() {
-    cy.get(selectSelector).then($select => {
-      const selectEl = $select[0] as HTMLSelectElement;
-      const option = Array.from(selectEl.options).find(o => o.text.includes(optionText));
-      if (option) {
-        cy.wrap(selectEl).select(option.value);
-      } else if (Date.now() - start < timeout) {
-        cy.wait(500).then(trySelect); // retry after 500ms
-      } else {
-        throw new Error(`Option "${optionText}" never appeared in ${timeout}ms`);
-      }
-    });
-  }
-
-  trySelect();
-}
-
 describe('Homepage', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -75,5 +54,25 @@ describe('Homepage', () => {
     cy.get('a[href="/shop"]').should('exist');
     cy.get('a[href="/rental"]').should('exist');
     cy.get('a[href="https://wa.me/+2348125146666"]').should('exist');
+  });
+
+  // ✅ New filter dropdown test
+  it('filters products correctly when selecting Brand New or Tokunbo', () => {
+    cy.get('[data-testid="filter-dropdown"]').should('be.visible');
+
+    // Default should show all items
+    cy.get('[data-testid="product-item"]').its('length').should('be.greaterThan', 0);
+
+    // Select Brand New
+    cy.get('[data-testid="filter-dropdown"]').select('brand_new');
+    cy.get('[data-testid="product-item"]').each(($el) => {
+      cy.wrap($el).should('contain.text', 'brand new');
+    });
+
+    // Select Tokunbo
+    cy.get('[data-testid="filter-dropdown"]').select('tokunbo');
+    cy.get('[data-testid="product-item"]').each(($el) => {
+      cy.wrap($el).should('contain.text', 'tokunbo');
+    });
   });
 });

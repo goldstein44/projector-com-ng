@@ -1,7 +1,7 @@
 // frontend/cypress/e2e/cart.cy.ts
 
 describe('Cart Page', () => {
-  const backendUrl = Cypress.env('backendUrl') // ✅ Django API
+  const backendUrl = Cypress.env('backendUrl') // ✅ Django API base URL
 
   beforeEach(() => {
     cy.clearLocalStorage()
@@ -94,6 +94,33 @@ describe('Cart Page', () => {
       cy.get('[data-testid="cart-checkout-button"]').click()
 
       cy.get('@alert').should('have.been.calledWith', 'Form submitted!')
+    })
+  })
+
+  // ✅ NEW TEST — verifies that the homepage filter toggle (All / Brand New / Tokunbo) works
+  it('filters featured products on homepage by condition', () => {
+    cy.visit('/')
+
+    // Dropdown should exist and contain expected options
+    cy.get('[data-testid="condition-filter"]').should('be.visible')
+    cy.get('[data-testid="condition-filter"] option').should(($opts) => {
+      const values = $opts.map((_, o) => o.value).get()
+      expect(values).to.include.members(['all', 'brand_new', 'tokunbo'])
+    })
+
+    // Default should show all products
+    cy.get('[data-testid="featured-product"]').should('have.length.at.least', 1)
+
+    // Filter by brand new
+    cy.get('[data-testid="condition-filter"]').select('brand_new')
+    cy.get('[data-testid="featured-product"]').each(($el) => {
+      cy.wrap($el).should('contain.text', 'Brand New')
+    })
+
+    // Filter by tokunbo
+    cy.get('[data-testid="condition-filter"]').select('tokunbo')
+    cy.get('[data-testid="featured-product"]').each(($el) => {
+      cy.wrap($el).should('contain.text', 'Tokunbo')
     })
   })
 })

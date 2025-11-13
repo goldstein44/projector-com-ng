@@ -13,6 +13,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="description"
           content="Affordable projectors for sale and hire in Lekki Ajah, Lagos. Keywords: buy projector in Lekki Ajah, projector hire Lekki Ajah, projector rental Lekki Ajah"
         />
+        {/* ✅ Add favicon reference */}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
     </CartProvider>
