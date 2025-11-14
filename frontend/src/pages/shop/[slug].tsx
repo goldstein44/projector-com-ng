@@ -1,4 +1,4 @@
-// frontend/pages/shop/[slug].tsx
+// frontend/src/pages/shop/[slug].tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -6,9 +6,9 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from 'axios';
 import React, { useContext } from 'react';
-import CartContext from '../../../context/CartContext';
+import { CartContext } from '../../../context/CartContext'; // <- named import of context object
 
-// derive the context value type from the context object
+// derive type from context
 type CartContextType = React.ContextType<typeof CartContext>;
 
 interface ProductDetailProps {
@@ -35,10 +35,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     throw new Error('ProductDetail must be used within a CartProvider');
   }
 
-  const { addToCart } = context;
+  const { addItem } = context;
 
   const handleAddToCart = () => {
-    addToCart({ productId: product.id, quantity: 1 });
+    addItem({ id: product.id, name: product.name, price: product.price, quantity: 1 });
   };
 
   return (
@@ -101,7 +101,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </button>
         <div className="mt-4">
           <h2>Reviews</h2>
-          {/* Placeholder for reviews */}
           <p>No reviews yet.</p>
         </div>
       </div>
