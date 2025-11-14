@@ -5,8 +5,11 @@ import Image from 'next/image';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import axios from 'axios';
-import { useContext } from 'react';
-import { CartContext, CartContextType } from '../../../context/CartContext';
+import React, { useContext } from 'react';
+import CartContext from '../../../context/CartContext';
+
+// derive the context value type from the context object
+type CartContextType = React.ContextType<typeof CartContext>;
 
 interface ProductDetailProps {
   product: {
