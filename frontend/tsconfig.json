@@ -14,9 +14,7 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
-      {
-        "name": "next"
-      }
+      { "name": "next" }
     ],
     "baseUrl": "src",
     "paths": {
@@ -40,6 +38,9 @@
     "cypress",
     "**/*.cy.ts",
     "**/*.spec.ts",
-    "**/__tests__"
+    "**/__tests__",
+    "**/*.test.js",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ]
 }
