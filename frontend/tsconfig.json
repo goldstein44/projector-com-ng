@@ -39,8 +39,6 @@
     "**/*.cy.ts",
     "**/*.spec.ts",
     "**/__tests__",
-    "**/*.test.js",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "tests/e2e"
   ]
 }
