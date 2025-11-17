@@ -31,7 +31,7 @@ export default function RentalDetail({ rental }: RentalDetailProps) {
             "name": "${rental.name}",
             "image": "${rental.image || '/placeholder.jpg'}",
             "description": "${rental.description}",
-            "brand": "${rental.brand}",
+            "brand": "${rental.brand || ''}",
             "offers": {
               "@type": "Offer",
               "url": "https://projector.online/rental/${rental.slug}",
@@ -58,16 +58,21 @@ export default function RentalDetail({ rental }: RentalDetailProps) {
           height={300}
         />
         <h1 className="text-2xl font-bold">{rental.name}</h1>
-        <p>₦{rental.price_per_day} per day</p>
+
+        {/* Fixed: build the whole string inside a JS expression */}
+        <p>{`₦${rental.price_per_day} per day`}</p>
+
         <p>{rental.description}</p>
+
         <p>
-          Specs: Lumens: {rental.lumens} | Resolution: {rental.resolution}
-        </p>
-        <p>
-          HDMI: {rental.hdmi ? 'Yes' : 'No'} | VGA: {rental.vga ? 'Yes' : 'No'}
+          {`Specs: Lumens: ${rental.lumens ?? 'N/A'} | Resolution: ${rental.resolution ?? 'N/A'}`}
         </p>
 
-        {/* ✅ Link updated with data-testid for Cypress */}
+        <p>
+          {`HDMI: ${rental.hdmi ? 'Yes' : 'No'} | VGA: ${rental.vga ? 'Yes' : 'No'}`}
+        </p>
+
+        {/* Link updated with data-testid for Cypress */}
         <Link
           href={`/booking?projectorId=${rental.id}`}
           className="bg-blue-500 text-white px-4 py-2 mt-4 inline-block"

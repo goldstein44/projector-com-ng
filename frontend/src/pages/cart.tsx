@@ -79,8 +79,8 @@ function CartPage() {
                 className="border rounded p-4 shadow-sm"
               >
                 <p className="font-semibold">{item.name}</p>
-                <p>Qty: {item.quantity}</p>
-                <p>Price: ₦{item.price}</p>
+                <p>{`Qty: ${item.quantity}`}</p>
+                <p>{`Price: ₦${item.price}`}</p>
               </div>
             ))}
 

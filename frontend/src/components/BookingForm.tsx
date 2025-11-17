@@ -1,7 +1,4 @@
-// frontend/src/components/BookingForm.tsx
 import { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -12,22 +9,31 @@ interface RentalProduct {
 }
 
 interface BookingFormProps {
-  onTotalChange?: (total: number) => void;
+  // optional controlled delivery type (parent can pass this)
+  deliveryType?: 'PICKUP' | 'DELIVERY';
+  onDeliveryTypeChange?: (type: 'PICKUP' | 'DELIVERY') => void;
+
+  // receives quantity, days, pricePerUnit, deliveryFee
+  onTotalChange?: (quantity: number, days: number, pricePerUnit: number, delivery: number) => void;
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
+const BookingForm: React.FC<BookingFormProps> = ({
+  deliveryType: controlledDeliveryType,
+  onDeliveryTypeChange,
+  onTotalChange,
+}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    deliveryType: 'PICKUP',
+    // default internal delivery type; will be overridden if parent provides a controlled value
+    deliveryType: 'PICKUP' as 'PICKUP' | 'DELIVERY',
     address: '',
     projectorId: '',
     quantity: 1,
-    startDate: new Date(),
-    endDate: new Date(),
     bookingDays: 1,
   });
+
   const [rentals, setRentals] = useState<RentalProduct[]>([]);
   const [total, setTotal] = useState(0);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -52,94 +58,78 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
     }
   }, [projectorId, rentals]);
 
-  const calculateDays = () => {
-    return (
-      Math.ceil(
-        (formData.endDate.getTime() - formData.startDate.getTime()) /
-          (1000 * 3600 * 24)
-      ) + 1
-    );
-  };
-
+  // sync controlled deliveryType from parent (if provided)
   useEffect(() => {
-    const days = calculateDays();
-    setFormData((prev) => ({ ...prev, bookingDays: days }));
-  }, [formData.startDate, formData.endDate]);
+    if (controlledDeliveryType && controlledDeliveryType !== formData.deliveryType) {
+      setFormData((prev) => ({ ...prev, deliveryType: controlledDeliveryType }));
+      // recalc totals using the new delivery type
+      calculateTotal(formData.quantity, formData.bookingDays, controlledDeliveryType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controlledDeliveryType]);
 
-  useEffect(() => {
-    calculateTotal();
-  }, [
-    formData.startDate,
-    formData.endDate,
-    formData.quantity,
-    formData.deliveryType,
-    formData.projectorId,
-    rentals,
-  ]);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  const calculateTotal = (
+    qty = formData.quantity,
+    days = formData.bookingDays,
+    deliveryType = formData.deliveryType
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    validateField(e.target.name, e.target.value);
+    const selectedRental = rentals.find((r) => r.id === formData.projectorId);
+    const pricePerUnit = selectedRental ? selectedRental.price_per_day : 0;
+    const delivery = deliveryType === 'DELIVERY' ? 3000 : 0;
+    const newTotal = qty * days * pricePerUnit + delivery;
+    setTotal(newTotal);
+
+    if (onTotalChange) {
+      onTotalChange(qty, days, pricePerUnit, delivery);
+    }
   };
 
-  const handleDateChange = (date: Date | null, name: string) => {
-    if (!date) return;
-    setFormData({ ...formData, [name]: date });
+  // handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    let val: string | number = value;
+
+    if (name === 'quantity' || name === 'bookingDays') {
+      val = parseInt(String(value), 10) || 1;
+    }
+
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: val } as typeof prev;
+      // when delivery type changes, propagate to parent if controlled handler exists
+      if (name === 'deliveryType') {
+        const dt = val as 'PICKUP' | 'DELIVERY';
+        if (onDeliveryTypeChange) onDeliveryTypeChange(dt);
+      }
+
+      if (name === 'quantity' || name === 'bookingDays' || name === 'deliveryType') {
+        calculateTotal(updated.quantity, updated.bookingDays, updated.deliveryType as 'PICKUP' | 'DELIVERY');
+      }
+
+      return updated;
+    });
+
+    validateField(name, String(value));
   };
 
   const validateField = (name: string, value: string) => {
     const newErrors = { ...errors };
-    if (name === 'name' && !value.trim()) {
-      newErrors.name = 'Name is required';
-    } else if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
-      newErrors.email = 'Valid email is required';
-    } else if (name === 'phone' && !value.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (
-      name === 'address' &&
-      formData.deliveryType === 'DELIVERY' &&
-      !value.trim()
-    ) {
-      newErrors.address = 'Address is required for delivery';
-    } else if (name === 'projectorId' && !value) {
-      newErrors.projectorId = 'Please select a projector';
-    } else {
-      delete newErrors[name];
-    }
+    if (name === 'name' && !value.trim()) newErrors.name = 'Name is required';
+    else if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) newErrors.email = 'Valid email is required';
+    else if (name === 'phone' && !value.trim()) newErrors.phone = 'Phone number is required';
+    else if (name === 'address' && formData.deliveryType === 'DELIVERY' && !value.trim()) newErrors.address = 'Address is required for delivery';
+    else if (name === 'projectorId' && !value) newErrors.projectorId = 'Please select a projector';
+    else delete newErrors[name];
     setErrors(newErrors);
-  };
-
-  const calculateTotal = () => {
-    const days = calculateDays();
-    const selectedRental = rentals.find((r) => String(r.id) === formData.projectorId);
-    const base = selectedRental
-      ? selectedRental.price_per_day * formData.quantity * days
-      : 0;
-    const delivery = formData.deliveryType === 'DELIVERY' ? 3000 : 0;
-    const newTotal = base + delivery;
-    setTotal(newTotal);
-
-    if (onTotalChange) {
-      onTotalChange(newTotal);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { [key: string]: string } = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = 'Valid email is required';
+    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Valid email is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (
-      formData.deliveryType === 'DELIVERY' &&
-      !formData.address.trim()
-    )
-      newErrors.address = 'Address is required for delivery';
-    if (!formData.projectorId)
-      newErrors.projectorId = 'Please select a projector';
+    if (formData.deliveryType === 'DELIVERY' && !formData.address.trim()) newErrors.address = 'Address is required for delivery';
+    if (!formData.projectorId) newErrors.projectorId = 'Please select a projector';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -156,11 +146,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
         {
           rental_product_id: formData.projectorId,
           quantity: formData.quantity,
-          start_date: formData.startDate.toISOString().split('T')[0],
-          end_date: formData.endDate.toISOString().split('T')[0],
+          booking_days: formData.bookingDays,
         },
       ],
     };
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}orders/create_rental/`,
@@ -169,9 +159,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       window.location.href = response.data.authorization_url;
     } catch (error) {
       console.error('Booking error:', error);
-      setErrors({
-        submit: 'Failed to process booking. Please try again.',
-      });
+      setErrors({ submit: 'Failed to process booking. Please try again.' });
     }
   };
 
@@ -181,14 +169,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       <div>
         <label className="block">Name</label>
         <input
-          data-testid="name"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className={`w-full p-2 border rounded ${
-            errors.name ? 'border-red-500' : ''
-          }`}
+          className={`w-full p-2 border rounded ${errors.name ? 'border-red-500' : ''}`}
         />
         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
       </div>
@@ -197,14 +182,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       <div>
         <label className="block">Email</label>
         <input
-          data-testid="email"
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className={`w-full p-2 border rounded ${
-            errors.email ? 'border-red-500' : ''
-          }`}
+          className={`w-full p-2 border rounded ${errors.email ? 'border-red-500' : ''}`}
         />
         {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
@@ -213,14 +195,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       <div>
         <label className="block">Phone</label>
         <input
-          data-testid="phone"
           type="text"
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          className={`w-full p-2 border rounded ${
-            errors.phone ? 'border-red-500' : ''
-          }`}
+          className={`w-full p-2 border rounded ${errors.phone ? 'border-red-500' : ''}`}
         />
         {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
       </div>
@@ -229,7 +208,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       <div>
         <label className="block">Delivery Type</label>
         <select
-          data-testid="delivery-type"
           name="deliveryType"
           value={formData.deliveryType}
           onChange={handleChange}
@@ -240,23 +218,18 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
         </select>
       </div>
 
-      {/* Address (only required if Delivery) */}
+      {/* Address */}
       {formData.deliveryType === 'DELIVERY' && (
         <div>
           <label className="block">Address</label>
           <input
-            data-testid="address"
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.address ? 'border-red-500' : ''
-            }`}
+            className={`w-full p-2 border rounded ${errors.address ? 'border-red-500' : ''}`}
           />
-          {errors.address && (
-            <p className="text-red-500 text-sm">{errors.address}</p>
-          )}
+          {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
         </div>
       )}
 
@@ -264,32 +237,25 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
       <div>
         <label className="block">Select Projector</label>
         <select
-          data-testid="projector"
           name="projectorId"
           value={formData.projectorId}
           onChange={handleChange}
-          className={`w-full p-2 border rounded ${
-            errors.projectorId ? 'border-red-500' : ''
-          }`}
-          required
+          className={`w-full p-2 border rounded ${errors.projectorId ? 'border-red-500' : ''}`}
         >
           <option value="">Select a projector</option>
-          {rentals.map((rental) => (
-            <option key={rental.id} value={rental.id}>
-              {rental.name}
+          {rentals.map((r) => (
+            <option key={r.id} value={r.id}>
+              {r.name}
             </option>
           ))}
         </select>
-        {errors.projectorId && (
-          <p className="text-red-500 text-sm">{errors.projectorId}</p>
-        )}
+        {errors.projectorId && <p className="text-red-500 text-sm">{errors.projectorId}</p>}
       </div>
 
       {/* Quantity */}
       <div>
         <label className="block">Quantity</label>
         <input
-          data-testid="quantity"
           type="number"
           name="quantity"
           min="1"
@@ -299,28 +265,26 @@ const BookingForm: React.FC<BookingFormProps> = ({ onTotalChange }) => {
         />
       </div>
 
-      {/* Booking Days (calculated, read-only) */}
+      {/* Booking Days */}
       <div>
         <label className="block">Booking Days</label>
         <input
-          data-testid="booking-days"
           type="number"
           name="bookingDays"
+          min="1"
           value={formData.bookingDays}
-          readOnly
-          className="w-full p-2 border rounded bg-gray-100"
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
         />
       </div>
 
-      <p>Total: ₦{total}</p>
+      <p>{`Total: ₦${total.toLocaleString()}`}</p>
 
-      <button
-        data-testid="book-now"
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
+      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
         Book Now
       </button>
+
+      {errors.submit && <p className="text-red-500 text-sm mt-2">{errors.submit}</p>}
     </form>
   );
 };

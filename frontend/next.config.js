@@ -1,17 +1,17 @@
-// frontend/next.config.js
-
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "localhost", // Keep localhost for dev
+        hostname: "localhost",
       },
       {
         protocol: "https",
-        hostname: "api.projectorlekki.com.ng", // Your production backend domain
+        hostname: "api.projectorlekki.com.ng",
       },
     ],
   },
@@ -19,6 +19,9 @@ const nextConfig = {
     NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || "",
     NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "",
   },
+  // Use normal .next folder locally to avoid module resolution issues
+  distDir: isDev ? ".next" : "functions/.next",
+  // Removed experimental.deploymentId as requested
 };
 
 module.exports = nextConfig;

@@ -1,4 +1,4 @@
-// frontend/pages/rental/index.tsx
+// frontend/src/pages/rental/index.tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import ProductCard from '../../components/ProductCard';
@@ -7,7 +7,19 @@ import Footer from '../../components/Footer';
 import axios from 'axios';
 
 interface RentalProps {
-  rentals: Array<any>;
+  rentals: Array<{
+    id: number;
+    name: string;
+    description: string;
+    price_per_day: number;
+    image_url?: string;
+    slug?: string;
+    lumens?: number;
+    resolution?: string;
+    hdmi?: boolean;
+    vga?: boolean;
+    [key: string]: any;
+  }>;
 }
 
 export default function Rental({ rentals }: RentalProps) {
@@ -15,13 +27,32 @@ export default function Rental({ rentals }: RentalProps) {
     <div>
       <Head>
         <title>Projector Rental in Lekki | projector.online</title>
-        <meta name="description" content="Projector hire Lekki, affordable projector rental near me" />
-        <meta name="keywords" content="projector hire Lekki, projector rental Lekki, affordable projector hire near me" />
+        <meta
+          name="description"
+          content="Projector hire Lekki, affordable projector rental near me"
+        />
+        <meta
+          name="keywords"
+          content="projector hire Lekki, projector rental Lekki, affordable projector hire near me"
+        />
       </Head>
       <Header />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
-        {rentals.map(rental => (
-          <ProductCard key={rental.id} {...rental} isRental={true} pricePerDay={rental.price_per_day} />
+        {rentals.map((rental) => (
+          <ProductCard
+            key={rental.id}
+            id={rental.id.toString()}
+            slug={rental.slug || rental.id.toString()}
+            name={rental.name || 'Unknown Projector'}
+            image={rental.image_url || '/images/placeholder.jpg'}
+            price={0} // rentals don’t use price
+            pricePerDay={rental.price_per_day || 0}
+            lumens={rental.lumens ?? 2000}
+            resolution={rental.resolution || '1080p'}
+            hdmi={rental.hdmi ?? true}
+            vga={rental.vga ?? false}
+            isRental={true}
+          />
         ))}
       </div>
       <Footer />
@@ -30,7 +61,27 @@ export default function Rental({ rentals }: RentalProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/`);
-  const rentals = res.data;
-  return { props: { rentals } };
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/`);
+    const rentals = res.data;
+
+    const safeRentals = rentals.map((r: any) => ({
+      ...r,
+      // Ensure serializable and safe defaults
+      created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
+      updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
+      image_url: r.image_url || '/images/placeholder.jpg',
+      slug: r.slug || r.id.toString(),
+      lumens: r.lumens ?? 2000,
+      resolution: r.resolution || '1080p',
+      hdmi: r.hdmi ?? true,
+      vga: r.vga ?? false,
+      price_per_day: r.price_per_day || 0,
+    }));
+
+    return { props: { rentals: safeRentals } };
+  } catch (error) {
+    console.error('Error fetching rentals:', error);
+    return { props: { rentals: [] } };
+  }
 };

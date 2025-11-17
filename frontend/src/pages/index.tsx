@@ -1,4 +1,4 @@
-// frontend/src/pages/index.tsx 
+// frontend/src/pages/index.tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import Image from 'next/image';
 import HeroSection from '../components/HeroSection';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import {
   ShoppingCartIcon,
   CalendarIcon,
@@ -25,6 +26,7 @@ interface HomeProps {
     image: string;
     price: number;
     condition?: 'brand_new' | 'tokunbo';
+    [key: string]: any;
   }>;
   featuredRentals: Array<{
     id: string;
@@ -32,6 +34,7 @@ interface HomeProps {
     slug: string;
     image: string;
     price_per_day: number;
+    [key: string]: any;
   }>;
 }
 
@@ -136,7 +139,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
               Buy Now
             </button>
           </Link>
-          <a href="https://wa.me/+2348125146666">
+          <a href="https://wa.me/2348125146666" aria-label="WhatsApp us">
             <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
               WhatsApp Us
             </button>
@@ -170,7 +173,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 <p>
                   Contact us on WhatsApp:{' '}
                   <a
-                    href="https://wa.me/+2348125146666"
+                    href="https://wa.me/2348125146666"
                     className="text-blue-500 hover:underline"
                   >
                     Chat Now
@@ -200,7 +203,6 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
           <div>
             <select
               data-testid="condition-filter"
-              data-testid2="filter-dropdown"
               value={filter}
               onChange={(e) =>
                 setFilter(e.target.value as 'all' | 'brand_new' | 'tokunbo')
@@ -229,7 +231,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                   className="rounded-md mb-4"
                 />
                 <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-gray-600">₦{product.price}</p>
+                <p className="text-gray-600">{`₦${product.price}`}</p>
                 {product.condition && (
                   <p className="text-sm text-gray-500 capitalize">
                     {product.condition.replace('_', ' ')}
@@ -279,7 +281,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                   className="rounded-md mb-4"
                 />
                 <h3 className="text-lg font-semibold">{rental.name}</h3>
-                <p className="text-gray-600">₦{rental.price_per_day}/day</p>
+                <p className="text-gray-600">{`₦${rental.price_per_day}/day`}</p>
                 <Link
                   href={`/rental/${rental.slug}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
@@ -327,7 +329,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
           </div>
         </div>
         <div className="flex justify-center gap-4 mt-6">
-          <a href="https://wa.me/+2348125146666">
+          <a href="https://wa.me/2348125146666">
             <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 font-semibold">
               Book on WhatsApp
             </button>
@@ -353,15 +355,13 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="border rounded-lg p-6 shadow-md">
             <p className="italic">
-              "Rented a projector for our event, and it was seamless! Great
-              service!"
+              "Rented a projector for our event, and it was seamless! Great service!"
             </p>
             <p className="mt-2 font-semibold">– Tolu A., Lagos</p>
           </div>
           <div className="border rounded-lg p-6 shadow-md">
             <p className="italic">
-              "Bought a projector for my office. Excellent quality and fast
-              delivery."
+              "Bought a projector for my office. Excellent quality and fast delivery."
             </p>
             <p className="mt-2 font-semibold">– Chidi O., Lekki</p>
           </div>
@@ -385,7 +385,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
               Rent Now
             </button>
           </Link>
-          <a href="https://wa.me/+2348125146666">
+          <a href="https://wa.me/2348125146666">
             <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
               Contact Us
             </button>
@@ -394,19 +394,26 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
       </section>
 
       <Footer />
+
+      {/* Floating WhatsApp button (always visible on this page) */}
+      <FloatingWhatsApp />
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let featuredProducts = [];
-  let featuredRentals = [];
+  let featuredProducts: any[] = [];
+  let featuredRentals: any[] = [];
 
   try {
     const productRes = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}products/?limit=3`
     );
-    featuredProducts = productRes.data;
+    featuredProducts = productRes.data.map((p: any) => ({
+      ...p,
+      created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
+      updated_at: p.updated_at ? new Date(p.updated_at).toISOString() : null,
+    }));
   } catch (error) {
     console.error('Failed to fetch products:', error);
     featuredProducts = [];
@@ -416,7 +423,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const rentalRes = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/?limit=3`
     );
-    featuredRentals = rentalRes.data;
+    featuredRentals = rentalRes.data.map((r: any) => ({
+      ...r,
+      created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
+      updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
+    }));
   } catch (error) {
     console.error('Failed to fetch rentals:', error);
     featuredRentals = [];

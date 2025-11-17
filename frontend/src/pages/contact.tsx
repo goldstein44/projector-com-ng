@@ -14,8 +14,8 @@ export default function Contact() {
       <Header />
       <div className="p-10">
         <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
-        <p>Email: info@projector online</p>
-        <p>Phone: +234-XXX-XXXX</p>
+        <p>Email: projectorlekki@gmail.com</p>
+        <p>Phone: +234-812-514-6666</p>
         <a href="https://wa.me/08125146666" className="text-blue-500">WhatsApp Us</a>
         {/* Add contact form if needed */}
       </div>

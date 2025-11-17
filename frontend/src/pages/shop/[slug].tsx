@@ -8,7 +8,6 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import { CartContext } from '../../../context/CartContext'; // <- named import of context object
 
-// derive type from context
 type CartContextType = React.ContextType<typeof CartContext>;
 
 interface ProductDetailProps {
@@ -84,13 +83,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           height={300}
         />
         <h1 className="text-2xl font-bold">{product.name}</h1>
-        <p>₦{product.price}</p>
+        {/* ✅ Fixed: combine string and dynamic value in {} */}
+        <p>{`₦${product.price}`}</p>
         <p>{product.description}</p>
         <p>
-          Lumens: {product.lumens} | Resolution: {product.resolution}
+          {`Lumens: ${product.lumens || 'N/A'} | Resolution: ${product.resolution || 'N/A'}`}
         </p>
         <p>
-          HDMI: {product.hdmi ? 'Yes' : 'No'} | VGA: {product.vga ? 'Yes' : 'No'}
+          {`HDMI: ${product.hdmi ? 'Yes' : 'No'} | VGA: ${product.vga ? 'Yes' : 'No'}`}
         </p>
         <button
           onClick={handleAddToCart}
