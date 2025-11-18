@@ -19,9 +19,7 @@ const nextConfig = {
     NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || "",
     NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "",
   },
-  // Use normal .next folder locally to avoid module resolution issues
-  distDir: isDev ? ".next" : "functions/.next",
-  // Removed experimental.deploymentId as requested
+  
 };
 
 module.exports = nextConfig;
