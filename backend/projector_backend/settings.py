@@ -23,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")  # fallback for dev
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 # ALLOWED_HOSTS
 _env_allowed = os.getenv("ALLOWED_HOSTS", "")
 if _env_allowed:
     ALLOWED_HOSTS = [h.strip() for h in _env_allowed.split(",") if h.strip()]
 else:
-    # Include Render service URL + custom domain
+    # Include Render service URL + custom backend domain
     ALLOWED_HOSTS = [
         "localhost",
         "127.0.0.1",
@@ -70,7 +70,7 @@ MIDDLEWARE = [
 # CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",                         # Frontend dev
-    "https://projector.online",                      # Existing prod domain
+    "https://projector.online",                      # Production domain
     "https://www.projectorlekki.com.ng",
     "https://projectorlekki.com.ng",
     "https://app.projectorlekki.com.ng",            # Custom backend domain
