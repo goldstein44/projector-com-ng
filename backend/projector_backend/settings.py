@@ -25,12 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")  # fallback for dev
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
-# ALLOWED_HOSTS: prefer explicit environment setting, fallback to common/dev hosts
+# ALLOWED_HOSTS
 _env_allowed = os.getenv("ALLOWED_HOSTS", "")
 if _env_allowed:
     ALLOWED_HOSTS = [h.strip() for h in _env_allowed.split(",") if h.strip()]
 else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projector.online"]
+    # Include Render service URL + custom domain
+    ALLOWED_HOSTS = [
+        "localhost",
+        "127.0.0.1",
+        "projector.online",
+        "projectorlekki-backend.onrender.com",
+        "app.projectorlekki.com.ng",
+    ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -62,13 +69,15 @@ MIDDLEWARE = [
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",         # Frontend dev server
-    "https://projector.online",      # Production domain
+    "http://localhost:3000",                         # Frontend dev
+    "https://projector.online",                      # Existing prod domain
     "https://www.projectorlekki.com.ng",
     "https://projectorlekki.com.ng",
+    "https://app.projectorlekki.com.ng",            # Custom backend domain
+    "https://projectorlekki-backend.onrender.com",  # Render service URL
 ]
 
-# URLS & Templates
+# URLs & Templates
 ROOT_URLCONF = "projector_backend.urls"
 
 TEMPLATES = [
@@ -90,7 +99,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "projector_backend.wsgi.application"
 
 # Database
-# Prefer DATABASE_URL (e.g. Render, Heroku). Fall back to explicit env vars or defaults.
 if os.getenv("DATABASE_URL"):
     DATABASES = {"default": dj_database_url.config(default=os.getenv("DATABASE_URL"))}
 else:
@@ -147,22 +155,20 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# WhiteNoise static files storage (lets WhiteNoise serve compressed manifest static files)
+# WhiteNoise static files storage
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Security recommendations / production settings
-# Trust X-Forwarded-Proto header when behind a proxy (e.g. Render)
+# Security / Production
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-# Redirect HTTP -> HTTPS in production (env controlled)
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True") == "True"
-
-# Cookies secure in production
 SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "True") == "True"
 CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "True") == "True"
 
-# CSRF trusted origins (can be extended via env)
-_csrf_trusted = os.getenv("CSRF_TRUSTED_ORIGINS", "https://www.projectorlekki.com.ng")
+# CSRF Trusted Origins
+_csrf_trusted = os.getenv(
+    "CSRF_TRUSTED_ORIGINS",
+    "https://www.projectorlekki.com.ng,https://app.projectorlekki.com.ng,https://projectorlekki-backend.onrender.com"
+)
 CSRF_TRUSTED_ORIGINS = [u.strip() for u in _csrf_trusted.split(",") if u.strip()]
 
 # Default primary key field type
