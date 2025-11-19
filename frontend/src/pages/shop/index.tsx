@@ -1,4 +1,3 @@
-// frontend/src/pages/shop/index.tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import ProductCard from '../../components/ProductCard';
@@ -60,8 +59,12 @@ export default function Shop({ products }: ShopProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const rawBase = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  const base = rawBase.replace(/\/+$/, '');
+  const API_BASE = `${base}/api`;
+
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}products/`);
+    const res = await axios.get(`${API_BASE}/products/?limit=100`);
     const products = res.data;
 
     const safeProducts = products.map((p: any) => ({

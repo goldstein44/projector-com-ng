@@ -1,4 +1,3 @@
-// frontend/src/pages/index.tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -87,7 +86,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
         <h3 className="text-xl font-medium mb-6 max-w-3xl mx-auto">
           Projector online makes it effortless to rent or buy projectors in Lekki
           Ajah. With same-day delivery, professional services, and one-click
-          WhatsApp or Online booking, we take the hassle out of getting the right projector —
+          WhatsApp or Online booking, we take the hassle out of getting the right projector — 
           so your event, church service, or presentation always shines bright.
         </h3>
 
@@ -402,13 +401,15 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const rawBase = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  const base = rawBase.replace(/\/+$/, '');
+  const API_BASE = `${base}/api`;
+
   let featuredProducts: any[] = [];
   let featuredRentals: any[] = [];
 
   try {
-    const productRes = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}products/?limit=3`
-    );
+    const productRes = await axios.get(`${API_BASE}/products/?limit=3`);
     featuredProducts = productRes.data.map((p: any) => ({
       ...p,
       created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
@@ -420,9 +421,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   try {
-    const rentalRes = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/?limit=3`
-    );
+    const rentalRes = await axios.get(`${API_BASE}/rentals/?limit=3`);
     featuredRentals = rentalRes.data.map((r: any) => ({
       ...r,
       created_at: r.created_at ? new Date(r.created_at).toISOString() : null,

@@ -1,4 +1,3 @@
-// frontend/src/pages/rental/index.tsx
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import ProductCard from '../../components/ProductCard';
@@ -61,8 +60,13 @@ export default function Rental({ rentals }: RentalProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // Normalize backend base (remove trailing slashes) and append /api
+  const rawBase = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  const base = rawBase.replace(/\/+$/, ''); // remove trailing slashes
+  const API_BASE = `${base}/api`;
+
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/`);
+    const res = await axios.get(`${API_BASE}/rentals/?limit=100`);
     const rentals = res.data;
 
     const safeRentals = rentals.map((r: any) => ({
