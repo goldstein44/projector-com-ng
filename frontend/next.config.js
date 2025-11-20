@@ -3,22 +3,23 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // IMPORTANT: disable Next.js image optimizer to serve static images from /public directly.
-  // This avoids the internal fetch that was causing 400 responses from the optimizer.
+  // Disable Next.js image optimization for static public images
+  // This ensures /public/products/... works without 400 errors
   images: {
     unoptimized: true,
-    // keep remotePatterns/domains in case you later want to load images from the backend domain.
+
+    // Keep remotePatterns/domains if you later need backend-hosted images
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "localhost",
+        hostname: "localhost", // dev backend
       },
       {
         protocol: "https",
-        hostname: "app.projectorlekki.com.ng",
+        hostname: "app.projectorlekki.com.ng", // prod backend
       },
     ],
-    domains: ["app.projectorlekki.com.ng"],
+    domains: ["app.projectorlekki.com.ng"], // optional, for external images
   },
 
   env: {
