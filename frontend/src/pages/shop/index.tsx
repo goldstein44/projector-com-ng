@@ -17,7 +17,7 @@ interface ShopProps {
     resolution?: string;
     hdmi?: boolean;
     vga?: boolean;
-    [key: string]: any; // fallback for any extra fields
+    [key: string]: any;
   }>;
 }
 
@@ -43,13 +43,17 @@ export default function Shop({ products }: ShopProps) {
             id={product.id.toString()}
             slug={product.slug || product.id.toString()}
             name={product.name || 'Unknown Projector'}
-            image={product.image_url ? product.image_url : `/products/${product.slug || product.id.toString()}.jpg`}
+            image={
+              product.image_url
+                ? product.image_url
+                : `/products/${product.slug || product.id.toString()}.jpg`
+            }
             price={product.price ?? 0}
             lumens={product.lumens ?? 2000}
             resolution={product.resolution || '1080p'}
             hdmi={product.hdmi ?? true}
             vga={product.vga ?? false}
-            isRental={false} // explicitly mark as shop product
+            isRental={false}
           />
         ))}
       </div>
@@ -71,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       ...p,
       created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
       updated_at: p.updated_at ? new Date(p.updated_at).toISOString() : null,
-      image_url: p.image_url || null, // keep null to allow fallback
+      image_url: p.image_url || null,
       slug: p.slug || p.id.toString(),
       lumens: p.lumens ?? 2000,
       resolution: p.resolution || '1080p',
