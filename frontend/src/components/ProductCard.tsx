@@ -30,12 +30,12 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const basePath = isRental ? '/rental' : '/shop';
 
-  // image prop may be absolute url (https://...), a relative url (/products/...), or a placeholder.
-  // Ensure we always pass a string to next/image.
+  // Ensure image is always a string.
+  // No reference to image_url anymore.
   const src =
     typeof image === 'string'
       ? image
-      : (image && (image as any).url) || '/images/placeholder.jpg';
+      : '/images/placeholder.jpg';
 
   return (
     <div className="border rounded-lg p-4 shadow-md">
