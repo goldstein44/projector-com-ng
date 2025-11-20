@@ -43,7 +43,8 @@ export default function Rental({ rentals }: RentalProps) {
             id={rental.id.toString()}
             slug={rental.slug || rental.id.toString()}
             name={rental.name || 'Unknown Projector'}
-            image={rental.image_url || '/images/placeholder.jpg'}
+            // fallback to /products/<slug>.jpg when backend image_url is not present
+            image={rental.image_url ? rental.image_url : `/products/${rental.slug || rental.id.toString()}.jpg`}
             price={0} // rentals don’t use price
             pricePerDay={rental.price_per_day || 0}
             lumens={rental.lumens ?? 2000}
@@ -74,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       // Ensure serializable and safe defaults
       created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
       updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
-      image_url: r.image_url || '/images/placeholder.jpg',
+      image_url: r.image_url || null, // keep null so frontend fallback triggers
       slug: r.slug || r.id.toString(),
       lumens: r.lumens ?? 2000,
       resolution: r.resolution || '1080p',

@@ -1,4 +1,3 @@
-// frontend/components/ProductCard.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -31,15 +30,22 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const basePath = isRental ? '/rental' : '/shop';
 
+  // image prop may be absolute url (https://...), a relative url (/products/...), or a placeholder.
+  // Ensure we always pass a string to next/image.
+  const src =
+    typeof image === 'string'
+      ? image
+      : (image && (image as any).url) || '/images/placeholder.jpg';
+
   return (
     <div className="border rounded-lg p-4 shadow-md">
       <Image
-        src={image}
+        src={src}
         alt={name}
         width={300}
         height={200}
-        className="mb-4 object-cover"
-        unoptimized={false} // optional: ensures Next.js image optimization
+        className="mb-4 object-cover rounded-md"
+        unoptimized={false}
       />
       <h3 className="text-xl font-bold">{name}</h3>
       <p>{isRental ? `₦${pricePerDay}/day` : `₦${price}`}</p>

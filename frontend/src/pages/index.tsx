@@ -22,7 +22,7 @@ interface HomeProps {
     id: string;
     name: string;
     slug: string;
-    image: string;
+    image?: string;
     price: number;
     condition?: 'brand_new' | 'tokunbo';
     [key: string]: any;
@@ -31,7 +31,7 @@ interface HomeProps {
     id: string;
     name: string;
     slug: string;
-    image: string;
+    image?: string;
     price_per_day: number;
     [key: string]: any;
   }>;
@@ -223,7 +223,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 className="border rounded-lg p-4 shadow-md hover:shadow-lg transition"
               >
                 <Image
-                  src={product.image || '/images/placeholder.jpg'}
+                  src={product.image ? product.image : `/products/${product.slug}.jpg`}
                   alt={product.name}
                   width={300}
                   height={200}
@@ -273,7 +273,7 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 className="border rounded-lg p-4 shadow-md hover:shadow-lg transition"
               >
                 <Image
-                  src={rental.image || '/images/placeholder.jpg'}
+                  src={rental.image ? rental.image : `/products/${rental.slug}.jpg`}
                   alt={rental.name}
                   width={300}
                   height={200}
@@ -414,6 +414,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
       ...p,
       created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
       updated_at: p.updated_at ? new Date(p.updated_at).toISOString() : null,
+      image: p.image_url || null,
+      slug: p.slug || p.id.toString(),
     }));
   } catch (error) {
     console.error('Failed to fetch products:', error);
@@ -426,6 +428,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
       ...r,
       created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
       updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
+      image: r.image_url || null,
+      slug: r.slug || r.id.toString(),
     }));
   } catch (error) {
     console.error('Failed to fetch rentals:', error);
