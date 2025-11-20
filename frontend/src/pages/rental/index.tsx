@@ -11,7 +11,6 @@ interface RentalProps {
     name: string;
     description: string;
     price_per_day: number;
-    image_url?: string;
     slug?: string;
     lumens?: number;
     resolution?: string;
@@ -43,12 +42,9 @@ export default function Rental({ rentals }: RentalProps) {
             id={rental.id.toString()}
             slug={rental.slug || rental.id.toString()}
             name={rental.name || 'Unknown Projector'}
-            image={
-              rental.image_url // if backend URL exists, use it
-                ? rental.image_url
-                : `/products/${rental.slug || rental.id.toString()}.jpg` // fallback to frontend public folder
-            }
-            price={0} // rentals don’t use price
+            // Always use frontend /products/ folder
+            image={`/products/${rental.slug || rental.id.toString()}.jpg`}
+            price={0}
             pricePerDay={rental.price_per_day || 0}
             lumens={rental.lumens ?? 2000}
             resolution={rental.resolution || '1080p'}
@@ -76,7 +72,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       ...r,
       created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
       updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
-      image_url: r.image_url || null, // null triggers frontend fallback
       slug: r.slug || r.id.toString(),
       lumens: r.lumens ?? 2000,
       resolution: r.resolution || '1080p',

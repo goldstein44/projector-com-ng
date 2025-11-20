@@ -11,7 +11,6 @@ interface ShopProps {
     name: string;
     description: string;
     price: number;
-    image_url?: string;
     slug?: string;
     lumens?: number;
     resolution?: string;
@@ -43,11 +42,8 @@ export default function Shop({ products }: ShopProps) {
             id={product.id.toString()}
             slug={product.slug || product.id.toString()}
             name={product.name || 'Unknown Projector'}
-            image={
-              product.image_url
-                ? product.image_url
-                : `/products/${product.slug || product.id.toString()}.jpg`
-            }
+            // Always use frontend /products/ folder
+            image={`/products/${product.slug || product.id.toString()}.jpg`}
             price={product.price ?? 0}
             lumens={product.lumens ?? 2000}
             resolution={product.resolution || '1080p'}
@@ -75,7 +71,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       ...p,
       created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
       updated_at: p.updated_at ? new Date(p.updated_at).toISOString() : null,
-      image_url: p.image_url || null,
       slug: p.slug || p.id.toString(),
       lumens: p.lumens ?? 2000,
       resolution: p.resolution || '1080p',
