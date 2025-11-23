@@ -1,4 +1,5 @@
-import { GetServerSideProps } from 'next';
+// src/pages/index.tsx
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,28 +14,34 @@ import {
   StarIcon,
   TruckIcon,
   CheckIcon,
+  MapPinIcon,
 } from '@heroicons/react/24/outline';
-import axios from 'axios';
 import { useState } from 'react';
+import fs from 'fs';
+import path from 'path';
+
+interface Product {
+  id: string;
+  slug: string;
+  brand: string;
+  model: string;
+  price: number;
+  condition: 'brand_new' | 'tokunbo';
+  image: string;
+}
+
+interface Rental {
+  id: string;
+  slug: string;
+  brand: string;
+  model: string;
+  price_per_day: number;
+  image: string;
+}
 
 interface HomeProps {
-  featuredProducts: Array<{
-    id: string;
-    name: string;
-    slug: string;
-    image?: string;
-    price: number;
-    condition?: 'brand_new' | 'tokunbo';
-    [key: string]: any;
-  }>;
-  featuredRentals: Array<{
-    id: string;
-    name: string;
-    slug: string;
-    image?: string;
-    price_per_day: number;
-    [key: string]: any;
-  }>;
+  featuredProducts: Product[];
+  featuredRentals: Rental[];
 }
 
 export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
@@ -124,19 +131,15 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
             <p>7+ days – ₦10,000/day</p>
           </div>
           <p className="text-2xl font-semibold mt-4">
-            👉 Rent today or buy outright — Zero Hassle. Zero Risk.
+            Rent today or buy outright — Zero Hassle. Zero Risk.
           </p>
         </div>
         <div className="flex justify-center gap-4 mt-6">
-          <Link href="/rental">
-            <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
-              Rent Now
-            </button>
+          <Link href="/rental" className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
+            Rent Now
           </Link>
-          <Link href="/shop">
-            <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
-              Buy Now
-            </button>
+          <Link href="/shop" className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
+            Buy Now
           </Link>
           <a href="https://wa.me/2348125146666" aria-label="WhatsApp us">
             <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100 font-semibold">
@@ -195,6 +198,51 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
         </div>
       </section>
 
+      {/* NEW: Location Coverage Section – SEO DOMINATION */}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <MapPinIcon className="w-10 h-10 text-blue-600" />
+            <h2 className="text-4xl font-bold text-gray-900">We Deliver Across Lagos Island</h2>
+          </div>
+          <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto">
+            Same-day projector rental & sales in Lekki, Ajah, Victoria Island, Ikoyi, VGC and all premium estates.
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-lg">
+            <div>
+              <Link href="/projector-rental-lekki" className="block font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+                Lekki Phase 1 & 2
+              </Link>
+            </div>
+            <div>
+              <Link href="/projector-rental-ajah" className="block font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+                Ajah & Sangotedo
+              </Link>
+            </div>
+            <div>
+              <Link href="/projector-rental-victoria-island" className="block font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+                Victoria Island (VI)
+              </Link>
+            </div>
+            <div>
+              <Link href="/projector-rental-ikoyi" className="block font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+                Ikoyi & Banana Island
+              </Link>
+            </div>
+            <div>
+              <Link href="/projector-rental-vgc" className="block font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+                VGC & Chevron
+              </Link>
+            </div>
+          </div>
+
+          <p className="mt-10 text-gray-600">
+            Serving Osapa, Ikate, Agungi, Abraham Adesanya, Ikota, Oniru, Eko Atlantic, Parkview and more.
+          </p>
+        </div>
+      </section>
+
       {/* Featured Products Section with Dropdown Filter */}
       <section className="p-10">
         <div className="flex justify-between items-center mb-6">
@@ -223,17 +271,17 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 className="border rounded-lg p-4 shadow-md hover:shadow-lg transition"
               >
                 <Image
-                  src={product.image ? product.image : `/products/${product.slug}.jpg`}
-                  alt={product.name}
+                  src={product.image}
+                  alt={`${product.brand} ${product.model}`}
                   width={300}
                   height={200}
                   className="rounded-md mb-4"
                 />
-                <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-gray-600">{`₦${product.price}`}</p>
+                <h3 className="text-lg font-semibold">{product.brand} {product.model}</h3>
+                <p className="text-gray-600">{`₦${product.price.toLocaleString()}`}</p>
                 {product.condition && (
                   <p className="text-sm text-gray-500 capitalize">
-                    {product.condition.replace('_', ' ')}
+                    {String(product.condition).replace('_', ' ')}
                   </p>
                 )}
                 <Link
@@ -273,14 +321,14 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 className="border rounded-lg p-4 shadow-md hover:shadow-lg transition"
               >
                 <Image
-                  src={rental.image ? rental.image : `/products/${rental.slug}.jpg`}
-                  alt={rental.name}
+                  src={rental.image}
+                  alt={`${rental.brand} ${rental.model}`}
                   width={300}
                   height={200}
                   className="rounded-md mb-4"
                 />
-                <h3 className="text-lg font-semibold">{rental.name}</h3>
-                <p className="text-gray-600">{`₦${rental.price_per_day}/day`}</p>
+                <h3 className="text-lg font-semibold">{rental.brand} {rental.model}</h3>
+                <p className="text-gray-600">{`₦${rental.price_per_day.toLocaleString()}/day`}</p>
                 <Link
                   href={`/rental/${rental.slug}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
@@ -333,10 +381,8 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
               Book on WhatsApp
             </button>
           </a>
-          <Link href="/rental">
-            <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 font-semibold">
-              Book Online
-            </button>
+          <Link href="/rental" className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 font-semibold">
+            Book Online
           </Link>
           <a href="tel:+2348125146666">
             <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 font-semibold">
@@ -374,15 +420,11 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
           Browse our projectors or contact us for personalized assistance.
         </p>
         <div className="flex justify-center gap-4">
-          <Link href="/shop">
-            <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
-              Shop Now
-            </button>
+          <Link href="/shop" className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
+            Shop Now
           </Link>
-          <Link href="/rental">
-            <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
-              Rent Now
-            </button>
+          <Link href="/rental" className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
+            Rent Now
           </Link>
           <a href="https://wa.me/2348125146666">
             <button className="bg-white text-blue-500 px-6 py-2 rounded hover:bg-gray-100">
@@ -394,52 +436,53 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
 
       <Footer />
 
-      {/* Floating WhatsApp button (always visible on this page) */}
+      {/* Floating WhatsApp button */}
       <FloatingWhatsApp />
     </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const rawBase = process.env.NEXT_PUBLIC_BACKEND_URL || '';
-  const base = rawBase.replace(/\/+$/, '');
-  const API_BASE = `${base}/api`;
+export const getStaticProps: GetStaticProps = async () => {
+  const DATA_FILE = path.join(process.cwd(), 'data', 'projectors.json');
 
-  let featuredProducts: any[] = [];
-  let featuredRentals: any[] = [];
-
-  try {
-    const productRes = await axios.get(`${API_BASE}/products/?limit=3`);
-    featuredProducts = productRes.data.map((p: any) => ({
-      ...p,
-      created_at: p.created_at ? new Date(p.created_at).toISOString() : null,
-      updated_at: p.updated_at ? new Date(p.updated_at).toISOString() : null,
-      image: p.image_url || null,
-      slug: p.slug || p.id.toString(),
-    }));
-  } catch (error) {
-    console.error('Failed to fetch products:', error);
-    featuredProducts = [];
+  let data = { sales: [], rentals: [] };
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+    } catch (e) {
+      console.error('Error reading projectors.json');
+    }
   }
 
-  try {
-    const rentalRes = await axios.get(`${API_BASE}/rentals/?limit=3`);
-    featuredRentals = rentalRes.data.map((r: any) => ({
-      ...r,
-      created_at: r.created_at ? new Date(r.created_at).toISOString() : null,
-      updated_at: r.updated_at ? new Date(r.updated_at).toISOString() : null,
-      image: r.image_url || null,
-      slug: r.slug || r.id.toString(),
+  // ✅ Use the actual image path from JSON
+  const featuredProducts = (data.sales || [])
+    .slice(0, 6)
+    .map((p: any) => ({
+      id: p.id,
+      slug: p.slug,
+      brand: p.brand,
+      model: p.model,
+      price: p.price,
+      condition: p.condition,
+      image: p.image || '/placeholder.jpg',
     }));
-  } catch (error) {
-    console.error('Failed to fetch rentals:', error);
-    featuredRentals = [];
-  }
+
+  const featuredRentals = (data.rentals || [])
+    .slice(0, 6)
+    .map((r: any) => ({
+      id: r.id,
+      slug: r.slug,
+      brand: r.brand,
+      model: r.model,
+      price_per_day: r.price_per_day,
+      image: r.image || '/placeholder.jpg',
+    }));
 
   return {
     props: {
       featuredProducts,
       featuredRentals,
     },
+    revalidate: 60,
   };
 };

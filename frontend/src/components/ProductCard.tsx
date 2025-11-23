@@ -1,61 +1,111 @@
+// components/ProductCard.tsx
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
 
 interface ProductCardProps {
   id: string;
   slug: string;
   name: string;
-  image?: string;       // optional, fallback will be used
-  price?: number;       // optional, defaults handled
-  pricePerDay?: number; // optional, for rentals
-  lumens?: number;      // optional, default to 2000
-  resolution?: string;  // optional, default to '1080p'
-  hdmi?: boolean;       // optional, default to true
-  vga?: boolean;        // optional, default to false
-  isRental?: boolean;   // optional, default to false
+  image: string;
+  price: number;
+  lumens: number;
+  resolution: string;
+  hdmi: boolean;
+  vga: boolean;
+  condition?: 'brand_new' | 'tokunbo';
+  description?: string;
+  isRental: boolean;
 }
 
-const ProductCard: FC<ProductCardProps> = ({
+export default function ProductCard({
+  id,
   slug,
-  name = 'Unknown Product',
-  image = '/images/placeholder.jpg',
-  price = 0,
-  pricePerDay = 0,
-  lumens = 2000,
-  resolution = '1080p',
-  hdmi = true,
-  vga = false,
-  isRental = false,
-}) => {
-  const basePath = isRental ? '/rental' : '/shop';
-
-  // Ensure image is always a string.
-  // No reference to image_url anymore.
-  const src =
-    typeof image === 'string'
-      ? image
-      : '/images/placeholder.jpg';
+  name,
+  image,
+  price,
+  lumens,
+  resolution,
+  hdmi,
+  vga,
+  condition,
+  description,
+  isRental,
+}: ProductCardProps) {
+  // Normalize the image path so it always starts with a leading slash
+  // and fallback to placeholder when missing.
+  const normalizedSrc =
+    typeof image === 'string' && image.trim().length > 0
+      ? image.startsWith('/')
+        ? image
+        : `/${image}`
+      : '/placeholder.jpg';
 
   return (
-    <div className="border rounded-lg p-4 shadow-md">
-      <Image
-        src={src}
-        alt={name}
-        width={300}
-        height={200}
-        className="mb-4 object-cover rounded-md"
-        unoptimized={false}
-      />
-      <h3 className="text-xl font-bold">{name}</h3>
-      <p>{isRental ? `₦${pricePerDay}/day` : `₦${price}`}</p>
-      <p>{`Lumens: ${lumens ?? 'N/A'} | Resolution: ${resolution ?? 'N/A'}`}</p>
-      <p>{`HDMI: ${hdmi ? 'Yes' : 'No'} | VGA: ${vga ? 'Yes' : 'No'}`}</p>
-      <Link href={`${basePath}/${slug}`}>
-        <a className="text-blue-500 mt-2 inline-block">View Details</a>
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
+      <Link href={isRental ? `/rental/${slug}` : `/shop/${slug}`}>
+        <a>
+          <div className="relative">
+            <Image
+              src={normalizedSrc}
+              alt={name}
+              width={600}
+              height={500}
+              className="w-full h-64 object-cover"
+              // If you ever use external URLs, consider adding `unoptimized` or configuring next.config.js
+            />
+            {condition && (
+              <span
+                className={`absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-bold text-white shadow-lg ${
+                  condition === 'brand_new'
+                    ? 'bg-green-600'
+                    : 'bg-orange-600'
+                }`}
+              >
+                {condition === 'brand_new' ? 'Brand New' : 'Tokunbo'}
+              </span>
+            )}
+          </div>
+        </a>
       </Link>
+
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{name}</h3>
+        
+        {description && (
+          <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
+        )}
+
+        <div className="space-y-2 text-sm text-gray-700 mb-4">
+          <p>
+            <strong>Lumens:</strong> {lumens?.toLocaleString?.() ?? 'N/A'}
+          </p>
+          <p>
+            <strong>Resolution:</strong> {resolution ?? 'N/A'}
+          </p>
+          <div className="flex gap-3">
+            {hdmi && <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">HDMI</span>}
+            {vga && <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs">VGA</span>}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <p className="text-2xl font-bold text-blue-700">
+            ₦{price.toLocaleString()}
+            {!isRental && <span className="text-sm text-gray-500"> only</span>}
+            {isRental && <span className="text-sm block text-gray-600">per day</span>}
+          </p>
+
+          <Link href={isRental ? `/rental/${slug}` : `/shop/${slug}`}>
+            <a className={`px-6 py-3 rounded-lg font-bold text-white transition ${
+              isRental
+                ? 'bg-green-600 hover:bg-green-700'
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}>
+              {isRental ? 'Book Now' : 'View Details'}
+            </a>
+          </Link>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default ProductCard;
+}
