@@ -1,4 +1,21 @@
 {
   "sales": [],
-  "rentals": []
+  "rentals": [
+    {
+      "id": "1763977638056",
+      "slug": "1763977637988-s517suj",
+      "type": "rental",
+      "brand": "Optoma",
+      "model": "ES515",
+      "lumens": 0,
+      "resolution": "Unknown",
+      "hdmi": false,
+      "vga": false,
+      "condition": "brand_new",
+      "price": 15000,
+      "description": "",
+      "image": "/rentals/1763977637988-s517suj.png",
+      "price_per_day": 15000
+    }
+  ]
 }

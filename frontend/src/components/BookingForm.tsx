@@ -6,6 +6,7 @@ interface RentalProduct {
   id: string;
   name: string;
   price_per_day: number;
+  image: string;
 }
 
 interface BookingFormProps {
@@ -36,53 +37,45 @@ const BookingForm: React.FC<BookingFormProps> = ({
   const router = useRouter();
   const { projectorId } = router.query;
 
-  // Load rentals from /public/rentals/ folder (static at build time)
+  // Load rentals dynamically from API
   useEffect(() => {
     const loadRentals = async () => {
       try {
-        const res = await fetch('/api/admin/list?folder=rentals');
+        const res = await fetch('/api/rentals/list', { cache: 'no-store' });
         const data = await res.json();
-        const rentalProducts: RentalProduct[] = data.files.map((file: string, index: number) => ({
-          id: file.split('.')[0], // use filename without extension as ID
-          name: file
-            .replace(/[-_]/g, ' ')
-            .replace(/\.[^.]+$/, '')
-            .replace(/\b\w/g, (l: string) => l.toUpperCase()),
-          price_per_day: 15000 + (index % 5) * 2000, // realistic variation
-        }));
-        setRentals(rentalProducts);
+        if (Array.isArray(data)) {
+          setRentals(data);
+          if (projectorId) {
+            const exists = data.some(r => r.id === String(projectorId));
+            if (exists) setFormData(prev => ({ ...prev, projectorId: String(projectorId) }));
+          }
+        } else {
+          setRentals([]);
+          console.error('API returned invalid rentals data:', data);
+        }
       } catch (err) {
-        console.error('Failed to load rentals from static folder:', err);
+        console.error('Failed to load rentals:', err);
+        setRentals([]);
       }
     };
-
     loadRentals();
-  }, []);
-
-  // Preselect projector from URL query
-  useEffect(() => {
-    if (projectorId && rentals.length > 0) {
-      const exists = rentals.some((r) => r.id === String(projectorId));
-      if (exists) {
-        setFormData((prev) => ({ ...prev, projectorId: String(projectorId) }));
-      }
-    }
-  }, [projectorId, rentals]);
+  }, [projectorId]);
 
   // Sync controlled delivery type
   useEffect(() => {
     if (controlledDeliveryType && controlledDeliveryType !== formData.deliveryType) {
-      setFormData((prev) => ({ ...prev, deliveryType: controlledDeliveryType }));
+      setFormData(prev => ({ ...prev, deliveryType: controlledDeliveryType }));
       calculateTotal(formData.quantity, formData.bookingDays, controlledDeliveryType);
     }
   }, [controlledDeliveryType]);
 
+  // Calculate total dynamically
   const calculateTotal = (
     qty = formData.quantity,
     days = formData.bookingDays,
     deliveryType = formData.deliveryType
   ) => {
-    const selectedRental = rentals.find((r) => r.id === formData.projectorId);
+    const selectedRental = rentals.find(r => r.id === formData.projectorId);
     const pricePerUnit = selectedRental ? selectedRental.price_per_day : 0;
     const delivery = deliveryType === 'DELIVERY' ? 3000 : 0;
     const newTotal = qty * days * pricePerUnit + delivery;
@@ -101,14 +94,14 @@ const BookingForm: React.FC<BookingFormProps> = ({
       val = parseInt(String(value), 10) || 1;
     }
 
-    setFormData((prev) => {
+    setFormData(prev => {
       const updated = { ...prev, [name]: val } as typeof prev;
-      if (name === 'deliveryType') {
-        const dt = val as 'PICKUP' | 'DELIVERY';
-        if (onDeliveryTypeChange) onDeliveryTypeChange(dt);
+
+      if (name === 'deliveryType' && onDeliveryTypeChange) {
+        onDeliveryTypeChange(val as 'PICKUP' | 'DELIVERY');
       }
 
-      if (name === 'quantity' || name === 'bookingDays' || name === 'deliveryType') {
+      if (['quantity', 'bookingDays', 'deliveryType', 'projectorId'].includes(name)) {
         calculateTotal(updated.quantity, updated.bookingDays, updated.deliveryType as 'PICKUP' | 'DELIVERY');
       }
 
@@ -123,7 +116,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
     if (name === 'name' && !value.trim()) newErrors.name = 'Name is required';
     else if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) newErrors.email = 'Valid email is required';
     else if (name === 'phone' && !value.trim()) newErrors.phone = 'Phone number is required';
-    else if (name === 'address' && formData.deliveryType === 'DELIVERY' && !value.trim()) newErrors.address = 'Address is required for delivery';
+    else if (name === 'address' && formData.deliveryType === 'DELIVERY' && !value.trim())
+      newErrors.address = 'Address is required for delivery';
     else if (name === 'projectorId' && !value) newErrors.projectorId = 'Please select a projector';
     else delete newErrors[name];
     setErrors(newErrors);
@@ -135,7 +129,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Valid email is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (formData.deliveryType === 'DELIVERY' && !formData.address.trim()) newErrors.address = 'Address is required for delivery';
+    if (formData.deliveryType === 'DELIVERY' && !formData.address.trim())
+      newErrors.address = 'Address is required for delivery';
     if (!formData.projectorId) newErrors.projectorId = 'Please select a projector';
 
     if (Object.keys(newErrors).length > 0) {
@@ -243,7 +238,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         </div>
       )}
 
-      {/* Projector */}
+      {/* Projector Dropdown */}
       <div>
         <label className="block">Select Projector</label>
         <select
@@ -253,11 +248,13 @@ const BookingForm: React.FC<BookingFormProps> = ({
           className={`w-full p-2 border rounded ${errors.projectorId ? 'border-red-500' : ''}`}
         >
           <option value="">Select a projector</option>
-          {rentals.map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.name} — ₦{r.price_per_day.toLocaleString()}/day
-            </option>
-          ))}
+          {Array.isArray(rentals) && rentals.length > 0
+            ? rentals.map(r => (
+                <option key={r.id} value={r.id}>
+                  {r.name} — ₦{r.price_per_day.toLocaleString()}/day
+                </option>
+              ))
+            : <option disabled>Loading projectors...</option>}
         </select>
         {errors.projectorId && <p className="text-red-500 text-sm">{errors.projectorId}</p>}
       </div>
@@ -288,8 +285,10 @@ const BookingForm: React.FC<BookingFormProps> = ({
         />
       </div>
 
+      {/* Total */}
       <p className="text-xl font-bold">{`Total: ₦${total.toLocaleString()}`}</p>
 
+      {/* Submit */}
       <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded font-semibold">
         Proceed to Payment
       </button>

@@ -8,10 +8,23 @@ import axios from 'axios';
 import Link from 'next/link';
 
 interface RentalDetailProps {
-  rental: any;
+  rental: any | null;
 }
 
 export default function RentalDetail({ rental }: RentalDetailProps) {
+  if (!rental) {
+    return (
+      <div>
+        <Header />
+        <div className="p-10 text-center">
+          <h1 className="text-2xl font-bold">Rental not found</h1>
+          <p>Sorry, the rental you are looking for does not exist.</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Head>
@@ -59,20 +72,17 @@ export default function RentalDetail({ rental }: RentalDetailProps) {
         />
         <h1 className="text-2xl font-bold">{rental.name}</h1>
 
-        {/* Fixed: build the whole string inside a JS expression */}
         <p>{`₦${rental.price_per_day} per day`}</p>
-
         <p>{rental.description}</p>
-
         <p>
-          {`Specs: Lumens: ${rental.lumens ?? 'N/A'} | Resolution: ${rental.resolution ?? 'N/A'}`}
+          {`Specs: Lumens: ${rental.lumens ?? 'N/A'} | Resolution: ${
+            rental.resolution ?? 'N/A'
+          }`}
         </p>
+        <p>{`HDMI: ${rental.hdmi ? 'Yes' : 'No'} | VGA: ${
+          rental.vga ? 'Yes' : 'No'
+        }`}</p>
 
-        <p>
-          {`HDMI: ${rental.hdmi ? 'Yes' : 'No'} | VGA: ${rental.vga ? 'Yes' : 'No'}`}
-        </p>
-
-        {/* Link updated with data-testid for Cypress */}
         <Link
           href={`/booking?projectorId=${rental.id}`}
           className="bg-blue-500 text-white px-4 py-2 mt-4 inline-block"
@@ -92,9 +102,32 @@ export default function RentalDetail({ rental }: RentalDetailProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}rentals/${params?.slug}/`
-  );
-  const rental = res.data;
-  return { props: { rental } };
+  const slug = params?.slug as string | undefined;
+  if (!slug) return { notFound: true };
+
+  let base = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  base = base.replace(/\/+$/, '');
+  if (!base.startsWith('http')) base = `https://${base}`;
+
+  try {
+    const res = await axios.get(`${base}/api/rentals/${slug}/`, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
+        Accept: 'application/json',
+      },
+      timeout: 5000,
+    });
+
+    return { props: { rental: res.data } };
+  } catch (err: any) {
+    console.error(
+      'SSR fetch failed:',
+      err.response?.status,
+      err.response?.data || err.message
+    );
+
+    // Fallback: return null so the page can still render
+    return { props: { rental: null } };
+  }
 };

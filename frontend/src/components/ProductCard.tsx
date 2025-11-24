@@ -31,8 +31,6 @@ export default function ProductCard({
   description,
   isRental,
 }: ProductCardProps) {
-  // Normalize the image path so it always starts with a leading slash
-  // and fallback to placeholder when missing.
   const normalizedSrc =
     typeof image === 'string' && image.trim().length > 0
       ? image.startsWith('/')
@@ -40,9 +38,16 @@ export default function ProductCard({
         : `/${image}`
       : '/placeholder.jpg';
 
+  // Determine the correct link URL
+  const linkHref = isRental ? `/booking?projectorId=${id}` : `/shop/${slug}`;
+  const buttonText = isRental ? 'Book Now' : 'View Details';
+  const buttonClass = isRental
+    ? 'bg-green-600 hover:bg-green-700'
+    : 'bg-blue-600 hover:bg-blue-700';
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
-      <Link href={isRental ? `/rental/${slug}` : `/shop/${slug}`}>
+      <Link href={linkHref}>
         <a>
           <div className="relative">
             <Image
@@ -51,14 +56,11 @@ export default function ProductCard({
               width={600}
               height={500}
               className="w-full h-64 object-cover"
-              // If you ever use external URLs, consider adding `unoptimized` or configuring next.config.js
             />
             {condition && (
               <span
                 className={`absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-bold text-white shadow-lg ${
-                  condition === 'brand_new'
-                    ? 'bg-green-600'
-                    : 'bg-orange-600'
+                  condition === 'brand_new' ? 'bg-green-600' : 'bg-orange-600'
                 }`}
               >
                 {condition === 'brand_new' ? 'Brand New' : 'Tokunbo'}
@@ -70,7 +72,7 @@ export default function ProductCard({
 
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-2">{name}</h3>
-        
+
         {description && (
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
         )}
@@ -83,8 +85,16 @@ export default function ProductCard({
             <strong>Resolution:</strong> {resolution ?? 'N/A'}
           </p>
           <div className="flex gap-3">
-            {hdmi && <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">HDMI</span>}
-            {vga && <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs">VGA</span>}
+            {hdmi && (
+              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">
+                HDMI
+              </span>
+            )}
+            {vga && (
+              <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs">
+                VGA
+              </span>
+            )}
           </div>
         </div>
 
@@ -95,13 +105,9 @@ export default function ProductCard({
             {isRental && <span className="text-sm block text-gray-600">per day</span>}
           </p>
 
-          <Link href={isRental ? `/rental/${slug}` : `/shop/${slug}`}>
-            <a className={`px-6 py-3 rounded-lg font-bold text-white transition ${
-              isRental
-                ? 'bg-green-600 hover:bg-green-700'
-                : 'bg-blue-600 hover:bg-blue-700'
-            }`}>
-              {isRental ? 'Book Now' : 'View Details'}
+          <Link href={linkHref}>
+            <a className={`px-6 py-3 rounded-lg font-bold text-white transition ${buttonClass}`}>
+              {buttonText}
             </a>
           </Link>
         </div>

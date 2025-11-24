@@ -329,8 +329,9 @@ export default function Home({ featuredProducts, featuredRentals }: HomeProps) {
                 />
                 <h3 className="text-lg font-semibold">{rental.brand} {rental.model}</h3>
                 <p className="text-gray-600">{`₦${rental.price_per_day.toLocaleString()}/day`}</p>
+                {/* Updated to booking page */}
                 <Link
-                  href={`/rental/${rental.slug}`}
+                  href={`/booking?projectorId=${rental.id}`}
                   className="text-blue-500 hover:underline mt-2 inline-block"
                 >
                   Book Now
