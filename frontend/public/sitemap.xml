@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.projectorlekki.com.ng/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://www.projectorlekki.com.ng/</loc><priority>1.0</priority></url>
+  <url><loc>https://www.projectorlekki.com.ng/projector-rental-near-me</loc><priority>1.0</priority></url>
+  <url><loc>https://www.projectorlekki.com.ng/rent-projector-near-me</loc><priority>1.0</priority></url>
   <url><loc>https://www.projectorlekki.com.ng/shop</loc><priority>0.9</priority></url>
   <url><loc>https://www.projectorlekki.com.ng/rental</loc><priority>0.9</priority></url>
   <url><loc>https://www.projectorlekki.com.ng/projector-rental-lekki</loc><priority>0.9</priority></url>
@@ -8,5 +10,4 @@
   <url><loc>https://www.projectorlekki.com.ng/projector-rental-victoria-island</loc><priority>0.9</priority></url>
   <url><loc>https://www.projectorlekki.com.ng/projector-rental-ikoyi</loc><priority>0.9</priority></url>
   <url><loc>https://www.projectorlekki.com.ng/projector-rental-vgc</loc><priority>0.9</priority></url>
-  <!-- Add every product slug dynamically later if you want -->
 </urlset>
