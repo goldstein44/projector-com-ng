@@ -53,36 +53,38 @@ export default function Home() {
 
       <Header />
 
-      {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 text-center">
+      {/* Updated Hero Section - More Compelling */}
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 text-center">
         <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Projector Lekki
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Reliable AV Rentals in Lagos Island
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">
-            AV Rentals – Same-Day Delivery Across Lagos Island
-          </h2>
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-            HD Projector ₦15,000/day • Normal Projector ₦12,000/day • Screen ₦13,000/day • Laptop ₦10,000/day • LED TV ₦20,000/day • Speakers ₦20,000/day
+          <p className="text-2xl md:text-3xl font-semibold mb-8">
+            Get Your Event Equipment Delivered &amp; Set Up Today
           </p>
+          <p className="text-xl mb-10 max-w-3xl mx-auto">
+            Professional projectors, large screens, laptops, LED TVs and powerful speakers. 
+            <span className="font-bold">Same-day delivery • Free setup • We pick up after your event.</span>
+          </p>
+          
           <div className="flex flex-col md:flex-row justify-center gap-4">
             <a
               href="https://wa.me/2348125146666"
-              className="inline-block bg-green-500 hover:bg-green-600 text-white text-xl font-bold px-10 py-4 rounded-full shadow-lg"
+              className="inline-block bg-green-500 hover:bg-green-600 text-white text-xl font-bold px-12 py-5 rounded-full shadow-lg"
             >
-              WhatsApp 08125146666
+              WhatsApp 08125146666 Now
             </a>
             <a
               href="#services"
-              className="inline-block bg-white hover:bg-gray-100 text-blue-600 text-xl font-bold px-10 py-4 rounded-full shadow-lg"
+              className="inline-block bg-white hover:bg-gray-100 text-blue-600 text-xl font-bold px-12 py-5 rounded-full shadow-lg"
             >
-              View All Prices
+              See Our Prices
             </a>
           </div>
         </div>
       </section>
 
-      {/* AV Rental Services & Prices */}
+      {/* AV Rental Services & Prices - Unchanged */}
       <section id="services" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -90,6 +92,7 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* All 6 service cards remain exactly the same as before */}
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
               <div className="flex justify-center mb-6">
                 <Image src="/images/av/hd-projector.jpg" alt="HD Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
@@ -118,7 +121,7 @@ export default function Home() {
               <div className="flex justify-center mb-6">
                 <Image src="/images/av/screen-96.jpg" alt="96x96 Screen Rental Lekki" width={140} height={140} className="rounded-lg" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Screen (96"x96")</h3>
+              <h3 className="text-2xl font-bold mb-3">Screen (96&quot;x96&quot;)</h3>
               <p className="text-4xl font-bold text-blue-600 mb-2">₦13,000/day</p>
               <p className="text-gray-600 mb-6">Large viewing area • Perfect for presentations</p>
               <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
@@ -163,7 +166,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Important Notes */}
           <div className="mt-12 text-center text-lg font-medium text-gray-800">
             <p className="text-2xl mb-4">Only Delivery Available 🚚</p>
             <p className="mb-2">Payment on delivery</p>
@@ -173,7 +175,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Internal Links - Strong On-Page SEO */}
+      {/* Internal Links - Unchanged */}
       <section className="py-12 bg-white border-t border-b">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-6">We Deliver Across Lagos Island</h2>
@@ -188,7 +190,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works - Unchanged */}
       <section className="py-16 bg-gray-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-12">How It Works</h2>
@@ -225,7 +227,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* FAQ Section - Added */}
+      <section className="p-10 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-10 text-center">Frequently Asked Questions</h2>
+          
+          <div className="space-y-8">
+            <div className="border-b pb-6">
+              <h3 className="text-xl font-bold mb-3">How much does AV rental cost?</h3>
+              <p className="text-gray-700">HD Projector ₦15,000/day, Normal Projector ₦12,000/day, Screen ₦13,000/day, Laptop ₦10,000/day, LED TV ₦20,000/day, Speakers ₦20,000/day.</p>
+            </div>
+
+            <div className="border-b pb-6">
+              <h3 className="text-xl font-bold mb-3">Do you offer same-day delivery?</h3>
+              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC and surrounding areas if you book before 2pm.</p>
+            </div>
+
+            <div className="border-b pb-6">
+              <h3 className="text-xl font-bold mb-3">How does the rental process work?</h3>
+              <p className="text-gray-700">Contact us on WhatsApp → We confirm availability → We deliver and set up → You pay after setup → We pick up after your event.</p>
+            </div>
+
+            <div className="border-b pb-6">
+              <h3 className="text-xl font-bold mb-3">Do I need to return the equipment myself?</h3>
+              <p className="text-gray-700">No. We handle delivery and pickup. You only enjoy the equipment during your event.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - Unchanged */}
       <section className="p-10 bg-blue-500 text-white text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Rent AV Equipment?</h2>
         <p className="mb-6">Same-day delivery available across Lagos Island.</p>
