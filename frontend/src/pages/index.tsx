@@ -1,4 +1,4 @@
-// pages/index.tsx
+// src/pages/index.tsx
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,14 +18,14 @@ export default function Home() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
-        <title>Projector Lekki - AV Rentals in Lekki, Ajah, VI, Ikoyi, VGC</title>
+        <title>Projector Lekki - Projector Rental Lekki | Rent Projector in Lekki</title>
         <meta
           name="description"
-          content="Projector rental near me in Lekki, Ajah, Victoria Island, Ikoyi, VGC. HD Projector ₦15,000/day, Normal Projector ₦12,000/day, Screen ₦13,000/day, Laptop ₦10,000/day, LED TV ₦20,000/day, Speakers ₦20,000/day. Same-day delivery available."
+          content="Projector rental Lekki, rent projector Lekki. Affordable AV rentals including projectors, screens, laptops, LED TVs and speakers. Same-day delivery in Lekki, Ajah, VI, Ikoyi, VGC, Salem, Ibeju, Abijo."
         />
         <meta
           name="keywords"
-          content="projector rental Lekki, projector hire Lekki, rent projector near me, projector rental Ajah, AV rental Lekki, projector rental Victoria Island, projector rental Ikoyi, projector rental VGC, projector rental Agungi, projector rental Osapa, projector rental Chevron"
+          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector rental Ajah, AV rental Lekki, projector rental Victoria Island, projector rental Ikoyi, projector rental VGC, projector rental Salem, projector rental Ibeju, projector rental Abijo, rent projector near me"
         />
         <script
           type="application/ld+json"
@@ -40,7 +40,7 @@ export default function Home() {
                 addressRegion: 'Lagos',
                 addressCountry: 'NG',
               },
-              description: 'Professional AV rentals including projectors, screens, laptops, LED TVs and speakers in Lekki, Ajah and Lagos Island',
+              description: 'Professional projector rental and AV rentals in Lekki, Ajah and Lagos Island',
               url: 'https://www.projectorlekki.com.ng',
               telephone: '+2348125146666',
               sameAs: 'https://wa.me/2348125146666',
@@ -53,7 +53,7 @@ export default function Home() {
 
       <Header />
 
-      {/* Updated Hero Section - More Compelling */}
+      {/* Hero Section - Compelling Copy */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 text-center">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -84,7 +84,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AV Rental Services & Prices - Unchanged */}
+      {/* AV Rental Services & Prices */}
       <section id="services" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -92,7 +92,6 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* All 6 service cards remain exactly the same as before */}
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
               <div className="flex justify-center mb-6">
                 <Image src="/images/av/hd-projector.jpg" alt="HD Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
@@ -175,7 +174,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Internal Links - Unchanged */}
+      {/* Internal Links Section - Updated with more locations + cross-site link */}
       <section className="py-12 bg-white border-t border-b">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-6">We Deliver Across Lagos Island</h2>
@@ -185,12 +184,28 @@ export default function Home() {
             <Link href="/projector-rental-victoria-island" className="hover:underline">Victoria Island</Link>
             <Link href="/projector-rental-ikoyi" className="hover:underline">Ikoyi & Banana Island</Link>
             <Link href="/projector-rental-vgc" className="hover:underline">VGC & Chevron</Link>
+            <Link href="/projector-rental-salem" className="hover:underline">Salem</Link>
+            <Link href="/projector-rental-ibeju" className="hover:underline">Ibeju</Link>
+            <Link href="/projector-rental-abijo" className="hover:underline">Abijo</Link>
             <Link href="/projector-rental-near-me" className="hover:underline">Projector Rental Near Me</Link>
+          </div>
+          
+          {/* Cross-site internal linking for ranking boost */}
+          <div className="mt-10 pt-8 border-t">
+            <p className="text-gray-600 mb-3">Also check our other rental services:</p>
+            <a 
+              href="https://www.projectorrenatal.com.ng" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Visit Projector Rental Nigeria → www.projectorrenatal.com.ng
+            </a>
           </div>
         </div>
       </section>
 
-      {/* How It Works - Unchanged */}
+      {/* How It Works */}
       <section className="py-16 bg-gray-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-12">How It Works</h2>
@@ -227,7 +242,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ Section - Added */}
+      {/* FAQ Section */}
       <section className="p-10 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-10 text-center">Frequently Asked Questions</h2>
@@ -240,7 +255,7 @@ export default function Home() {
 
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">Do you offer same-day delivery?</h3>
-              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC and surrounding areas if you book before 2pm.</p>
+              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC, Salem, Ibeju, Abijo and surrounding areas if you book before 2pm.</p>
             </div>
 
             <div className="border-b pb-6">
@@ -256,7 +271,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA - Unchanged */}
+      {/* CTA */}
       <section className="p-10 bg-blue-500 text-white text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Rent AV Equipment?</h2>
         <p className="mb-6">Same-day delivery available across Lagos Island.</p>
