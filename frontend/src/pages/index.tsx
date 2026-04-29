@@ -6,12 +6,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import {
-  CalendarIcon,
   ChatBubbleBottomCenterIcon,
-  StarIcon,
-  TruckIcon,
   CheckIcon,
-  MapPinIcon,
+  TruckIcon,
+  StarIcon,
 } from '@heroicons/react/24/outline';
 
 export default function Home() {
@@ -21,39 +19,17 @@ export default function Home() {
         <title>Projector Lekki - Projector Rental Lekki | Rent Projector in Lekki</title>
         <meta
           name="description"
-          content="Projector rental Lekki, rent projector Lekki. Affordable AV rentals including projectors, screens, laptops, LED TVs and speakers. Same-day delivery in Lekki, Ajah, VI, Ikoyi, VGC, Salem, Ibeju, Abijo."
+          content="Projector rental Lekki, rent projector Lekki. Professional AV rentals including projectors, screens, laptops, LED TVs, speakers and projector & screen installation. Same-day delivery available."
         />
         <meta
           name="keywords"
-          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector rental Ajah, AV rental Lekki, projector rental Victoria Island, projector rental Ikoyi, projector rental VGC, projector rental Salem, projector rental Ibeju, projector rental Abijo, rent projector near me"
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'LocalBusiness',
-              name: 'Projector Lekki',
-              address: {
-                '@type': 'PostalAddress',
-                addressLocality: 'Lekki',
-                addressRegion: 'Lagos',
-                addressCountry: 'NG',
-              },
-              description: 'Professional projector rental and AV rentals in Lekki, Ajah and Lagos Island',
-              url: 'https://www.projectorlekki.com.ng',
-              telephone: '+2348125146666',
-              sameAs: 'https://wa.me/2348125146666',
-              openingHours: 'Mo-Su 08:00-22:00',
-              priceRange: '₦₦',
-            }),
-          }}
+          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector installation Lekki, screen mounting Lekki, AV rental Lekki, rent projector near me"
         />
       </Head>
 
       <Header />
 
-      {/* Hero Section - Compelling Copy */}
+      {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 text-center">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -63,8 +39,8 @@ export default function Home() {
             Get Your Event Equipment Delivered &amp; Set Up Today
           </p>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
-            Professional projectors, large screens, laptops, LED TVs and powerful speakers. 
-            <span className="font-bold">Same-day delivery • Free setup • We pick up after your event.</span>
+            Professional projectors, large screens, laptops, LED TVs, speakers and expert installation services. 
+            <span className="font-bold">Same-day delivery • Free basic setup • We pick up after your event.</span>
           </p>
           
           <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -78,129 +54,117 @@ export default function Home() {
               href="#services"
               className="inline-block bg-white hover:bg-gray-100 text-blue-600 text-xl font-bold px-12 py-5 rounded-full shadow-lg"
             >
-              See Our Prices
+              See Our Services
             </a>
           </div>
         </div>
       </section>
 
-      {/* AV Rental Services & Prices */}
+      {/* Services Section */}
       <section id="services" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            AV Rental Services & Prices
+            Our AV Rental & Installation Services
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/hd-projector.jpg" alt="HD Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">HD Projector</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦15,000/day</p>
-              <p className="text-gray-600 mb-6">High-definition • Bright & clear for any event</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/normal-projector.jpg" alt="Normal Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
+            {/* Grouped Projectors */}
+            <Link href="/services/projector-rental" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/hd-projector.jpg" alt="Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Projector Rental</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">From ₦12,000/day</p>
+                <p className="text-gray-600 mb-6">HD Projectors &amp; Normal Projectors for events, meetings, weddings and churches</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">Normal Projector</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦12,000/day</p>
-              <p className="text-gray-600 mb-6">Reliable & affordable • Great everyday use</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
+            </Link>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/screen-96.jpg" alt="96x96 Screen Rental Lekki" width={140} height={140} className="rounded-lg" />
+            {/* Other Services */}
+            <Link href="/services/projector-screen-rental" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/screen-96.jpg" alt="Projector Screen Rental Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Projector Screen Rental</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦13,000/day</p>
+                <p className="text-gray-600 mb-6">96"x96" High Quality Projection Screens</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">Screen (96&quot;x96&quot;)</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦13,000/day</p>
-              <p className="text-gray-600 mb-6">Large viewing area • Perfect for presentations</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
+            </Link>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/laptop.jpg" alt="Laptop Rental Lekki" width={140} height={140} className="rounded-lg" />
+            <Link href="/services/laptop-rental" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/laptop.jpg" alt="Laptop Rental Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Laptop Rental</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦10,000/day</p>
+                <p className="text-gray-600 mb-6">High-performance laptops for presentations</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">Laptop</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦10,000/day</p>
-              <p className="text-gray-600 mb-6">High-performance • Ready for presentations</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
+            </Link>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/led-tv.jpg" alt="LED TV Rental Lekki" width={140} height={140} className="rounded-lg" />
+            <Link href="/services/led-tv-rental" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/led-tv.jpg" alt="LED TV Rental Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">LED TV Rental</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
+                <p className="text-gray-600 mb-6">Large LED TVs for events and displays</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">LED TV</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
-              <p className="text-gray-600 mb-6">Large screen alternative • Sharp & vibrant</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
+            </Link>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center">
-              <div className="flex justify-center mb-6">
-                <Image src="/images/av/speakers.jpg" alt="Speakers Rental Lekki" width={140} height={140} className="rounded-lg" />
+            <Link href="/services/speakers-rental" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/speakers.jpg" alt="Speakers Rental Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Speakers Rental</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
+                <p className="text-gray-600 mb-6">Powerful sound systems for events</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">Speakers</h3>
-              <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
-              <p className="text-gray-600 mb-6">Powerful sound • Ideal for events & gatherings</p>
-              <a href="https://wa.me/2348125146666" className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full">
-                Contact Us
-              </a>
-            </div>
+            </Link>
+
+            <Link href="/services/projector-installation" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/installation.jpg" alt="Projector Installation Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Projector &amp; Screen Installation</h3>
+                <p className="text-4xl font-bold text-blue-600 mb-2">Professional Mounting</p>
+                <p className="text-gray-600 mb-6">Expert wall &amp; ceiling mounting for projectors and screens</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
+              </div>
+            </Link>
           </div>
 
           <div className="mt-12 text-center text-lg font-medium text-gray-800">
             <p className="text-2xl mb-4">Only Delivery Available 🚚</p>
-            <p className="mb-2">Payment on delivery</p>
-            <p className="mb-4">Setup free</p>
+            <p className="mb-2">Payment on delivery • Setup free</p>
             <p className="text-xl">Call/WhatsApp: 08125146666</p>
           </div>
         </div>
       </section>
 
-      {/* Internal Links Section - Updated with more locations + cross-site link */}
+      {/* Locations */}
       <section className="py-12 bg-white border-t border-b">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-6">We Deliver Across Lagos Island</h2>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-blue-600 font-medium">
-            <Link href="/projector-rental-lekki" className="hover:underline">Lekki Phase 1 & 2</Link>
-            <Link href="/projector-rental-ajah" className="hover:underline">Ajah & Sangotedo</Link>
+            <Link href="/projector-rental-lekki" className="hover:underline">Lekki</Link>
+            <Link href="/projector-rental-ajah" className="hover:underline">Ajah</Link>
             <Link href="/projector-rental-victoria-island" className="hover:underline">Victoria Island</Link>
-            <Link href="/projector-rental-ikoyi" className="hover:underline">Ikoyi & Banana Island</Link>
-            <Link href="/projector-rental-vgc" className="hover:underline">VGC & Chevron</Link>
+            <Link href="/projector-rental-ikoyi" className="hover:underline">Ikoyi</Link>
+            <Link href="/projector-rental-vgc" className="hover:underline">VGC</Link>
             <Link href="/projector-rental-salem" className="hover:underline">Salem</Link>
             <Link href="/projector-rental-ibeju" className="hover:underline">Ibeju</Link>
             <Link href="/projector-rental-abijo" className="hover:underline">Abijo</Link>
-            <Link href="/projector-rental-near-me" className="hover:underline">Projector Rental Near Me</Link>
-          </div>
-          
-          {/* Cross-site internal linking for ranking boost */}
-          <div className="mt-10 pt-8 border-t">
-            <p className="text-gray-600 mb-3">Also check our other rental services:</p>
-            <a 
-              href="https://www.projectorrenatal.com.ng" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Visit Projector Rental Nigeria → www.projectorrenatal.com.ng
-            </a>
           </div>
         </div>
       </section>
@@ -214,29 +178,29 @@ export default function Home() {
               <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <ChatBubbleBottomCenterIcon className="w-10 h-10 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">1. Contact Us on WhatsApp</h3>
-              <p className="text-gray-600">Message 08125146666 and tell us what you need based on your event.</p>
+              <h3 className="text-xl font-bold mb-4">1. Contact Us</h3>
+              <p className="text-gray-600">Message us on WhatsApp 08125146666</p>
             </div>
             <div>
               <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <CheckIcon className="w-10 h-10 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">2. We Confirm & Quote</h3>
-              <p className="text-gray-600">We reply quickly with availability and quote.</p>
+              <h3 className="text-xl font-bold mb-4">2. We Confirm</h3>
+              <p className="text-gray-600">Quick reply with availability and quote</p>
             </div>
             <div>
               <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <TruckIcon className="w-10 h-10 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">3. We Deliver & Set Up</h3>
-              <p className="text-gray-600">Same-day delivery to your location. Pay after delivery & setup.</p>
+              <h3 className="text-xl font-bold mb-4">3. Delivery &amp; Setup</h3>
+              <p className="text-gray-600">We deliver and set up at your location</p>
             </div>
             <div>
               <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <StarIcon className="w-10 h-10 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">4. We Pick Up After Event</h3>
-              <p className="text-gray-600">We collect the equipment after your event.</p>
+              <h3 className="text-xl font-bold mb-4">4. We Pick Up</h3>
+              <p className="text-gray-600">We collect equipment after your event</p>
             </div>
           </div>
         </div>
@@ -250,12 +214,12 @@ export default function Home() {
           <div className="space-y-8">
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">How much does AV rental cost?</h3>
-              <p className="text-gray-700">HD Projector ₦15,000/day, Normal Projector ₦12,000/day, Screen ₦13,000/day, Laptop ₦10,000/day, LED TV ₦20,000/day, Speakers ₦20,000/day.</p>
+              <p className="text-gray-700">HD &amp; Normal Projectors from ₦12,000/day, Screen ₦13,000/day, Laptop ₦10,000/day, LED TV ₦20,000/day, Speakers ₦20,000/day. Installation services also available.</p>
             </div>
 
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">Do you offer same-day delivery?</h3>
-              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC, Salem, Ibeju, Abijo and surrounding areas if you book before 2pm.</p>
+              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC, Salem, Ibeju, Abijo and surrounding areas.</p>
             </div>
 
             <div className="border-b pb-6">
@@ -264,8 +228,13 @@ export default function Home() {
             </div>
 
             <div className="border-b pb-6">
+              <h3 className="text-xl font-bold mb-3">Do you install projectors and screens?</h3>
+              <p className="text-gray-700">Yes, we offer professional projector and screen installation/mounting services.</p>
+            </div>
+
+            <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">Do I need to return the equipment myself?</h3>
-              <p className="text-gray-700">No. We handle delivery and pickup. You only enjoy the equipment during your event.</p>
+              <p className="text-gray-700">No. We handle delivery and pickup.</p>
             </div>
           </div>
         </div>
