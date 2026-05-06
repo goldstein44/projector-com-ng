@@ -8,8 +8,11 @@ export default function ProjectorScreenRental() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
-        <title>Projector Screen Rental Lekki - 96"x96" Screen | Projector Lekki</title>
-        <meta name="description" content="Rent high-quality 96\"x96\" projector screens in Lekki. Perfect for events, presentations, weddings and church programs. Same-day delivery available." />
+        <title>Projector Screen Rental Lekki - 96x96 Screen | Projector Lekki</title>
+        <meta 
+          name="description" 
+          content="Rent high-quality 96x96 projector screens in Lekki. Perfect for events, presentations, weddings and church programs. Same-day delivery available." 
+        />
       </Head>
 
       <Header />
