@@ -19,11 +19,11 @@ export default function Home() {
         <title>Projector Lekki - Projector Rental Lekki | Rent Projector in Lekki</title>
         <meta
           name="description"
-          content="Projector rental Lekki, rent projector Lekki. HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day."
+          content="Projector rental Lekki, rent projector Lekki. HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day. Same-day delivery."
         />
         <meta
           name="keywords"
-          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector installation Lekki, screen mounting Lekki, AV rental Lekki, rent projector near me"
+          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector rental Jakande, AV rental Lekki, rent projector near me"
         />
       </Head>
 
@@ -36,11 +36,11 @@ export default function Home() {
             Reliable AV Rentals in Lagos Island
           </h1>
           <p className="text-2xl md:text-3xl font-semibold mb-8">
-            Get Your Event Equipment Delivered &amp; Set Up Today
+            Projector Lekki
           </p>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
-            HD Projector ₦17,000/day • Normal Projector ₦12,000/day • 6ft x 6ft Screen ₦15,000/day • 
-            Laptop ₦15,000/day • LED TV ₦20,000/day • PA Speakers with Bluetooth ₦20,000/day
+            We provide high-quality projectors, screens, laptops, LED TVs, PA speakers and professional installation services. 
+            Trusted by event planners, churches, companies and individuals across Lekki, Ajah, Victoria Island, Ikoyi and beyond.
           </p>
           
           <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -150,7 +150,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Locations */}
+      {/* Locations Section with Jakande */}
       <section className="py-12 bg-white border-t border-b">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-6">We Deliver Across Lagos Island</h2>
@@ -163,6 +163,7 @@ export default function Home() {
             <Link href="/projector-rental-salem" className="hover:underline">Salem</Link>
             <Link href="/projector-rental-ibeju" className="hover:underline">Ibeju</Link>
             <Link href="/projector-rental-abijo" className="hover:underline">Abijo</Link>
+            <Link href="/projector-rental-jakunde" className="hover:underline">Jakande</Link>
           </div>
         </div>
       </section>
@@ -217,7 +218,7 @@ export default function Home() {
 
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">Do you offer same-day delivery?</h3>
-              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC, Salem, Ibeju, Abijo and surrounding areas.</p>
+              <p className="text-gray-700">Yes, same-day delivery in Lekki, Ajah, Victoria Island, Ikoyi, VGC, Salem, Ibeju, Abijo, Jakande and surrounding areas.</p>
             </div>
 
             <div className="border-b pb-6">
