@@ -19,7 +19,7 @@ export default function Home() {
         <title>Projector Lekki - Projector Rental Lekki | Rent Projector in Lekki</title>
         <meta
           name="description"
-          content="Projector rental Lekki, rent projector Lekki. Professional AV rentals including projectors, screens, laptops, LED TVs, speakers and projector & screen installation. Same-day delivery available."
+          content="Projector rental Lekki, rent projector Lekki. HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day."
         />
         <meta
           name="keywords"
@@ -39,8 +39,8 @@ export default function Home() {
             Get Your Event Equipment Delivered &amp; Set Up Today
           </p>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
-            Professional projectors, large screens, laptops, LED TVs, speakers and expert installation services. 
-            <span className="font-bold">Same-day delivery • Free basic setup • We pick up after your event.</span>
+            HD Projector ₦17,000/day • Normal Projector ₦12,000/day • 6ft x 6ft Screen ₦15,000/day • 
+            Laptop ₦15,000/day • LED TV ₦20,000/day • PA Speakers with Bluetooth ₦20,000/day
           </p>
           
           <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -69,7 +69,6 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            {/* Grouped Projectors */}
             <Link href="/services/projector-rental" className="block">
               <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
                 <div className="flex justify-center mb-6">
@@ -77,20 +76,19 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector Rental</h3>
                 <p className="text-4xl font-bold text-blue-600 mb-2">From ₦12,000/day</p>
-                <p className="text-gray-600 mb-6">HD Projectors &amp; Normal Projectors for events, meetings, weddings and churches</p>
+                <p className="text-gray-600 mb-6">HD Projectors (₦17,000) &amp; Normal Projectors (₦12,000)</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
 
-            {/* Other Services */}
             <Link href="/services/projector-screen-rental" className="block">
               <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
                 <div className="flex justify-center mb-6">
                   <Image src="/images/av/screen-96.jpg" alt="Projector Screen Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector Screen Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦13,000/day</p>
-                <p className="text-gray-600 mb-6">96"x96" High Quality Projection Screens</p>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦15,000/day</p>
+                <p className="text-gray-600 mb-6">6ft x 6ft High Quality Projection Screen</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -101,7 +99,7 @@ export default function Home() {
                   <Image src="/images/av/laptop.jpg" alt="Laptop Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Laptop Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦10,000/day</p>
+                <p className="text-4xl font-bold text-blue-600 mb-2">₦15,000/day</p>
                 <p className="text-gray-600 mb-6">High-performance laptops for presentations</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
@@ -124,9 +122,9 @@ export default function Home() {
                 <div className="flex justify-center mb-6">
                   <Image src="/images/av/speakers.jpg" alt="Speakers Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Speakers Rental</h3>
+                <h3 className="text-2xl font-bold mb-3">PA Speakers with Bluetooth</h3>
                 <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
-                <p className="text-gray-600 mb-6">Powerful sound systems for events</p>
+                <p className="text-gray-600 mb-6">Powerful sound systems with Bluetooth connectivity</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -138,7 +136,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector &amp; Screen Installation</h3>
                 <p className="text-4xl font-bold text-blue-600 mb-2">Professional Mounting</p>
-                <p className="text-gray-600 mb-6">Expert wall &amp; ceiling mounting for projectors and screens</p>
+                <p className="text-gray-600 mb-6">Expert wall and ceiling mounting for projectors and screens</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -214,7 +212,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">How much does AV rental cost?</h3>
-              <p className="text-gray-700">HD &amp; Normal Projectors from ₦12,000/day, Screen ₦13,000/day, Laptop ₦10,000/day, LED TV ₦20,000/day, Speakers ₦20,000/day. Installation services also available.</p>
+              <p className="text-gray-700">HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day.</p>
             </div>
 
             <div className="border-b pb-6">
