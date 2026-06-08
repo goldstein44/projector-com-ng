@@ -8,7 +8,7 @@ export default function ProjectorScreenRental() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
-        <title>Projector Screen Rental Lekki - 96x96 Screen | Projector Lekki</title>
+        <title>Projector Screen Rental Lekki - 6ftx6ft Screen | Projector Lekki</title>
         <meta 
           name="description" 
           content="Rent high-quality 96x96 projector screens in Lekki. Perfect for events, presentations, weddings and church programs. Same-day delivery available." 
@@ -19,8 +19,8 @@ export default function ProjectorScreenRental() {
 
       <div className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-6">Projector Screen Rental Lekki</h1>
-        <p className="text-3xl font-bold text-blue-600 mb-8">96" x 96" Projection Screen</p>
-        <p className="text-2xl mb-10">₦13,000 per day</p>
+        <p className="text-3xl font-bold text-blue-600 mb-8">6ft x 6ft Projection Screen</p>
+        <p className="text-2xl mb-10">₦15,000 per day</p>
 
         <div className="bg-white p-10 rounded-2xl shadow mb-12">
           <h2 className="text-2xl font-semibold mb-6">Why Choose Our Projection Screen?</h2>

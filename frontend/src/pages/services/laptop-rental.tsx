@@ -16,7 +16,7 @@ export default function LaptopRental() {
 
       <div className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-6">Laptop Rental Lekki</h1>
-        <p className="text-3xl font-bold text-blue-600 mb-8">₦10,000 per day</p>
+        <p className="text-3xl font-bold text-blue-600 mb-8">₦15,000 per day</p>
         <p className="text-lg mb-10">Perfect for PowerPoint presentations, video playback, and live demonstrations.</p>
 
         <div className="bg-white p-10 rounded-2xl shadow mb-12">

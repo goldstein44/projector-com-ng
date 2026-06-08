@@ -21,7 +21,7 @@ export default function ProjectorRental() {
         <div className="grid md:grid-cols-2 gap-10 mb-12">
           <div className="bg-white p-8 rounded-2xl shadow">
             <h3 className="text-2xl font-bold mb-4">HD Projector</h3>
-            <p className="text-5xl font-bold text-blue-600 mb-4">₦15,000/day</p>
+            <p className="text-5xl font-bold text-blue-600 mb-4">₦17,000/day</p>
             <p className="text-gray-600">High brightness and clarity. Ideal for large venues, weddings, and professional presentations.</p>
           </div>
 
