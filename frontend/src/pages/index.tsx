@@ -19,11 +19,11 @@ export default function Home() {
         <title>Projector Lekki - Projector Rental Lekki | Rent Projector in Lekki</title>
         <meta
           name="description"
-          content="Projector rental Lekki, rent projector Lekki. HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day. Same-day delivery."
+          content="Projector rental Lekki, rent projector Lekki. Professional AV rentals including projectors, screens, laptops, LED TVs, speakers, installation services and sales of projectors & screens."
         />
         <meta
           name="keywords"
-          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector rental Jakande, AV rental Lekki, rent projector near me"
+          content="projector rental, projector rental lekki, rent projector lekki, projector hire Lekki, projector sales Lekki, AV rental Lekki, rent projector near me"
         />
       </Head>
 
@@ -40,7 +40,7 @@ export default function Home() {
           </p>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
             We provide high-quality projectors, screens, laptops, LED TVs, PA speakers and professional installation services. 
-            Trusted by event planners, churches, companies and individuals across Lekki, Ajah, Victoria Island, Ikoyi and beyond.
+            Trusted by event planners, churches, companies and individuals across Lekki and Lagos Island.
           </p>
           
           <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -60,7 +60,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Services Section - No prices on homepage */}
       <section id="services" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -75,8 +75,7 @@ export default function Home() {
                   <Image src="/images/av/hd-projector.jpg" alt="Projector Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">From ₦12,000/day</p>
-                <p className="text-gray-600 mb-6">HD Projectors (₦17,000) &amp; Normal Projectors (₦12,000)</p>
+                <p className="text-gray-600 mb-8">HD and Normal projectors for events, weddings, meetings, churches and parties.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -87,8 +86,7 @@ export default function Home() {
                   <Image src="/images/av/screen-96.jpg" alt="Projector Screen Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector Screen Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦15,000/day</p>
-                <p className="text-gray-600 mb-6">6ft x 6ft High Quality Projection Screen</p>
+                <p className="text-gray-600 mb-8">High quality 6ft x 6ft projection screens for clear visuals.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -99,8 +97,7 @@ export default function Home() {
                   <Image src="/images/av/laptop.jpg" alt="Laptop Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Laptop Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦15,000/day</p>
-                <p className="text-gray-600 mb-6">High-performance laptops for presentations</p>
+                <p className="text-gray-600 mb-8">High-performance laptops for presentations and events.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -111,8 +108,7 @@ export default function Home() {
                   <Image src="/images/av/led-tv.jpg" alt="LED TV Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">LED TV Rental</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
-                <p className="text-gray-600 mb-6">Large LED TVs for events and displays</p>
+                <p className="text-gray-600 mb-8">Large LED TVs for bright displays and events.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -123,8 +119,7 @@ export default function Home() {
                   <Image src="/images/av/speakers.jpg" alt="Speakers Rental Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">PA Speakers with Bluetooth</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">₦20,000/day</p>
-                <p className="text-gray-600 mb-6">Powerful sound systems with Bluetooth connectivity</p>
+                <p className="text-gray-600 mb-8">Powerful sound systems with Bluetooth for events and gatherings.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
@@ -135,22 +130,28 @@ export default function Home() {
                   <Image src="/images/av/installation.jpg" alt="Projector Installation Lekki" width={140} height={140} className="rounded-lg" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Projector &amp; Screen Installation</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-2">Professional Mounting</p>
-                <p className="text-gray-600 mb-6">Expert wall and ceiling mounting for projectors and screens</p>
+                <p className="text-gray-600 mb-8">Professional wall and ceiling mounting services.</p>
                 <span className="text-blue-600 font-medium">View Details →</span>
               </div>
             </Link>
-          </div>
 
-          <div className="mt-12 text-center text-lg font-medium text-gray-800">
-            <p className="text-2xl mb-4">Only Delivery Available 🚚</p>
-            <p className="mb-2">Payment on delivery • Setup free</p>
-            <p className="text-xl">Call/WhatsApp: 08125146666</p>
+            {/* New Service: Sales of Projectors and Screens */}
+            <Link href="/services/projector-sales" className="block">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow hover:shadow-xl transition text-center h-full">
+                <div className="flex justify-center mb-6">
+                  <Image src="/images/av/hd-projector.jpg" alt="Projector Sales Lekki" width={140} height={140} className="rounded-lg" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Projectors &amp; Screens Sales</h3>
+                <p className="text-gray-600 mb-8">Brand new and tokunbo projectors and screens available for outright purchase.</p>
+                <span className="text-blue-600 font-medium">View Details →</span>
+              </div>
+            </Link>
+
           </div>
         </div>
       </section>
 
-      {/* Locations Section with Jakande */}
+      {/* Locations */}
       <section className="py-12 bg-white border-t border-b">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-6">We Deliver Across Lagos Island</h2>
@@ -213,7 +214,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="border-b pb-6">
               <h3 className="text-xl font-bold mb-3">How much does AV rental cost?</h3>
-              <p className="text-gray-700">HD Projector ₦17,000/day, Normal Projector ₦12,000/day, 6ft x 6ft Screen ₦15,000/day, Laptop ₦15,000/day, LED TV ₦20,000/day, PA Speakers with Bluetooth ₦20,000/day.</p>
+              <p className="text-gray-700">Contact us for current pricing on projectors, screens, laptops, TVs, speakers and installation services.</p>
             </div>
 
             <div className="border-b pb-6">
@@ -227,8 +228,8 @@ export default function Home() {
             </div>
 
             <div className="border-b pb-6">
-              <h3 className="text-xl font-bold mb-3">Do you install projectors and screens?</h3>
-              <p className="text-gray-700">Yes, we offer professional projector and screen installation/mounting services.</p>
+              <h3 className="text-xl font-bold mb-3">Do you sell projectors and screens?</h3>
+              <p className="text-gray-700">Yes, we also sell brand new and tokunbo projectors and screens.</p>
             </div>
 
             <div className="border-b pb-6">
